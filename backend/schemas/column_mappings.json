@@ -1,0 +1,14 @@
+{
+  "alias_mappings": {},
+  "synonym_mappings": {},
+  "time_period_mappings": {
+    "last_year": {"type": "year_offset", "value": -1},
+    "last_quarter": {"type": "quarter_offset", "value": -1},
+    "last_month": {"type": "month_offset", "value": -1},
+    "last_week": {"type": "week_offset", "value": -1},
+    "this_year": {"type": "year_offset", "value": 0},
+    "this_quarter": {"type": "quarter_offset", "value": 0},
+    "this_month": {"type": "month_offset", "value": 0},
+    "current_year": {"type": "year_offset", "value": 0}
+  }
+}

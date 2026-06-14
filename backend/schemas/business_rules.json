@@ -1,0 +1,9 @@
+{
+  "time_rules": {
+    "today": "2026-06-13",
+    "current_year": 2026,
+    "current_quarter": "Q2"
+  },
+  "filter_rules": [],
+  "validation_rules": []
+}

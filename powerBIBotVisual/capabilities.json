@@ -1,0 +1,43 @@
+{
+    "dataRoles": [
+        {
+            "displayName": "Fields",
+            "name": "fields",
+            "kind": "Grouping"
+        }
+    ],
+    "dataViewMappings": [
+        {
+            "table": {
+                "rows": {
+                    "select": [
+                        {
+                            "bind": {
+                                "to": "fields"
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    ],
+    "objects": {
+        "general": {
+            "displayName": "General",
+            "properties": {
+                "filter": {
+                    "type": {
+                        "filter": {}
+                    }
+                }
+            }
+        }
+    },
+    "supportsKeyboardFocus": true,
+    "supportsHighlight": false,
+    "privileges": []
+}
+
+
+
+

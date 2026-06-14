@@ -1,0 +1,147 @@
+# Environment Variables
+.env
+.env.local
+.env.*.local
+.vscode/settings.json
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+pip-log.txt
+pip-delete-this-directory.txt
+.venv
+venv/
+ENV/
+env/
+.vscode
+*.pyc
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Node.js
+node_modules/
+npm-debug.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+
+# Power BI Custom Visual Build
+PowerBIBotVisual/dist/
+PowerBIBotVisual/.tmp/
+PowerBIBotVisual/node_modules/
+PowerBIBotVisual/.vscode/
+PowerBIBotVisual/webpack.statistics.prod.html
+
+# Power BI Desktop Files
+*.pbix
+*.pbixe
+*.pbit
+.pbix-cache
+
+# IDE and Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+.project
+.pydevproject
+.settings/
+*.sublime-project
+*.sublime-workspace
+
+# OS
+.DS_Store
+Thumbs.db
+*.log
+
+# Temporary Files
+*.tmp
+*.temp
+*.bak
+*.backup
+*.orig
+
+# Cache
+.cache/
+*.cache
+.pytest_cache/
+
+# IDE Extensions
+extensions/
+extensions.json
+
+# LocalAppData (Windows Power BI cache - if cloned on new machine)
+LocalAppData/
+
+# Extracted files
+pbix_extract/
+extracted/
+
+# Build artifacts
+*.zip
+*.rar
+*.7z
+*.tar.gz
+
+# Debug files
+debug.log
+debug.txt
+
+# Test outputs
+test-results/
+coverage/
+.nyc_output/
+
+# Backend specific
+backend/.env
+backend/__pycache__/
+backend/*.pyc
+backend/logs/
+backend/.pytest_cache/
+
+
+# Old/Legacy folders (not needed for production)
+custom-visual/
+
+# Sensitive data
+credentials.json
+secrets.json
+apikeys.txt
+
+# Large files
+*.pbix
+sample_data/raw/
+*.csv.bak
+
+# Session files
+*.session
+.session/
+session-state/
+
+# IDE temp files
+.editorconfig.swp
+.prettierrc.swp

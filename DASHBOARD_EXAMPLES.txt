@@ -1,0 +1,407 @@
+DASHBOARD EXAMPLES - HOW BOT HANDLES DIFFERENT TYPES
+
+=======================================================================
+EXAMPLE 1: E-COMMERCE SALES DASHBOARD
+=======================================================================
+
+Dashboard Purpose: Track online sales, customer sentiment, and regional performance
+
+Columns Available:
+- sentiment (Positive, Negative, Neutral)
+- country (USA, Germany, India, Brazil)
+- region (North, South, East, West)
+- product_category (Electronics, Home, Clothing)
+- order_date
+- revenue
+- quantity
+
+User Query: "Show me positive sentiment from USA last quarter"
+
+Bot Captures:
+{
+  "sentiment": "Positive",
+  "country": "USA",
+  "time_period": "last_quarter"
+}
+
+Filters Applied:
+[
+  {column: "sentiment", operator: "In", values: ["Positive"]},
+  {column: "country", operator: "In", values: ["USA"]},
+  {column: "order_date", operator: "Between", values: ["2026-04-01", "2026-06-30"]}
+]
+
+Result: Dashboard shows only USA orders with positive feedback from Q2 2026
+
+=======================================================================
+
+=======================================================================
+EXAMPLE 2: HR ANALYTICS DASHBOARD
+=======================================================================
+
+Dashboard Purpose: Monitor employee performance, attrition, and departmental metrics
+
+Columns Available:
+- department (IT, Sales, HR, Finance, Operations)
+- location (NYC, LA, Chicago, Remote)
+- employment_status (Active, On Leave, Terminated)
+- salary (numeric)
+- hire_date
+- performance_rating
+
+User Query: "Show IT department employees from NYC with high performance"
+
+Bot Captures:
+{
+  "department": "IT",
+  "location": "NYC",
+  "performance_rating": "high"
+}
+
+Filters Applied:
+[
+  {column: "department", operator: "In", values: ["IT"]},
+  {column: "location", operator: "In", values: ["NYC"]},
+  {column: "performance_rating", operator: "Greater", values: [4.0]}
+]
+
+Result: Dashboard shows active IT employees from NYC office with performance rating 4+
+
+=======================================================================
+
+=======================================================================
+EXAMPLE 3: MARKETING CAMPAIGN DASHBOARD
+=======================================================================
+
+Dashboard Purpose: Track campaign performance, ROI, and channel effectiveness
+
+Columns Available:
+- channel (Email, Social Media, Search, Display, Direct)
+- campaign_type (Awareness, Consideration, Conversion)
+- status (Running, Completed, Paused)
+- impressions
+- clicks
+- conversions
+- spend
+- start_date
+- end_date
+
+User Query: "Email campaigns from last month with high conversions"
+
+Bot Captures:
+{
+  "channel": "Email",
+  "time_period": "last_month",
+  "conversions": "high"
+}
+
+Filters Applied:
+[
+  {column: "channel", operator: "In", values: ["Email"]},
+  {column: "start_date", operator: "Between", values: ["2026-05-01", "2026-05-31"]},
+  {column: "conversions", operator: "Greater", values: [1000]}
+]
+
+Result: Dashboard shows email campaigns from May 2026 with 1000+ conversions
+
+=======================================================================
+
+=======================================================================
+EXAMPLE 4: FINANCIAL TRANSACTIONS DASHBOARD
+=======================================================================
+
+Dashboard Purpose: Monitor account activity, transaction types, and regional trends
+
+Columns Available:
+- account_type (Checking, Savings, Business, Credit)
+- transaction_type (Deposit, Withdrawal, Transfer, Fee)
+- amount (numeric)
+- balance (numeric)
+- transaction_date
+- region (North America, Europe, Asia, South America)
+- customer_tier (Bronze, Silver, Gold, Platinum)
+
+User Query: "High value business account transfers from Europe this year"
+
+Bot Captures:
+{
+  "account_type": "Business",
+  "transaction_type": "Transfer",
+  "region": "Europe",
+  "time_period": "this_year",
+  "amount": "high"
+}
+
+Filters Applied:
+[
+  {column: "account_type", operator: "In", values: ["Business"]},
+  {column: "transaction_type", operator: "In", values: ["Transfer"]},
+  {column: "region", operator: "In", values: ["Europe"]},
+  {column: "transaction_date", operator: "Between", values: ["2026-01-01", "2026-12-31"]},
+  {column: "amount", operator: "Greater", values: [10000]}
+]
+
+Result: Dashboard shows business transfers from Europe totaling 10k+ in 2026
+
+=======================================================================
+
+=======================================================================
+EXAMPLE 5: HOSPITAL OPERATIONS DASHBOARD
+=======================================================================
+
+Dashboard Purpose: Track patient admissions, departmental load, and recovery metrics
+
+Columns Available:
+- department (Emergency, Surgery, Cardiology, Pediatrics, ICU)
+- admission_status (Admitted, Discharged, In Progress)
+- patient_condition (Critical, Stable, Recovering)
+- admission_date
+- discharge_date
+- length_of_stay (numeric)
+- hospital_cost (numeric)
+
+User Query: "ICU critical patients admitted last quarter"
+
+Bot Captures:
+{
+  "department": "ICU",
+  "patient_condition": "Critical",
+  "time_period": "last_quarter"
+}
+
+Filters Applied:
+[
+  {column: "department", operator: "In", values: ["ICU"]},
+  {column: "patient_condition", operator: "In", values: ["Critical"]},
+  {column: "admission_date", operator: "Between", values: ["2026-04-01", "2026-06-30"]}
+]
+
+Result: Dashboard shows critical patients admitted to ICU in Q2 2026 with their stay duration
+
+=======================================================================
+
+=======================================================================
+EXAMPLE 6: SUPPLY CHAIN DASHBOARD
+=======================================================================
+
+Dashboard Purpose: Monitor inventory, supplier performance, and delivery status
+
+Columns Available:
+- supplier_name
+- supplier_region (Asia, Europe, Americas, Africa)
+- product_type (Raw Materials, Components, Finished Goods)
+- delivery_status (On Time, Delayed, Cancelled)
+- inventory_level
+- order_date
+- delivery_date
+- cost
+
+User Query: "Asia supplier delayed deliveries for raw materials last month"
+
+Bot Captures:
+{
+  "supplier_region": "Asia",
+  "delivery_status": "Delayed",
+  "product_type": "Raw Materials",
+  "time_period": "last_month"
+}
+
+Filters Applied:
+[
+  {column: "supplier_region", operator: "In", values: ["Asia"]},
+  {column: "delivery_status", operator: "In", values: ["Delayed"]},
+  {column: "product_type", operator: "In", values: ["Raw Materials"]},
+  {column: "delivery_date", operator: "Between", values: ["2026-05-01", "2026-05-31"]}
+]
+
+Result: Dashboard shows delayed deliveries from Asia suppliers for materials in May
+
+=======================================================================
+
+=======================================================================
+EXAMPLE 7: STUDENT PERFORMANCE DASHBOARD
+=======================================================================
+
+Dashboard Purpose: Monitor student grades, attendance, and graduation metrics
+
+Columns Available:
+- department (Engineering, Commerce, Arts, Science)
+- semester (1, 2, 3, 4, 5, 6, 7, 8)
+- gpa (numeric)
+- attendance_percent (numeric)
+- status (Active, Graduated, Dropped Out)
+- enrollment_date
+- test_score (numeric)
+
+User Query: "Engineering students with high GPA last semester"
+
+Bot Captures:
+{
+  "department": "Engineering",
+  "gpa": "high",
+  "semester": "8"
+}
+
+Filters Applied:
+[
+  {column: "department", operator: "In", values: ["Engineering"]},
+  {column: "gpa", operator: "Greater", values: [3.5]},
+  {column: "semester", operator: "In", values: ["8"]}
+]
+
+Result: Dashboard shows engineering final-year students with GPA 3.5+ from semester 8
+
+=======================================================================
+
+=======================================================================
+EXAMPLE 8: SOCIAL MEDIA ENGAGEMENT DASHBOARD
+=======================================================================
+
+Dashboard Purpose: Track social media performance across platforms and content types
+
+Columns Available:
+- platform (Facebook, Instagram, Twitter, LinkedIn, TikTok)
+- content_type (Video, Image, Text, Carousel)
+- engagement_rate (numeric - percentage)
+- likes
+- shares
+- comments
+- post_date
+- audience_segment (Youth, Professional, Senior)
+
+User Query: "Video content on Instagram with high engagement last week"
+
+Bot Captures:
+{
+  "content_type": "Video",
+  "platform": "Instagram",
+  "engagement_rate": "high",
+  "time_period": "last_week"
+}
+
+Filters Applied:
+[
+  {column: "content_type", operator: "In", values: ["Video"]},
+  {column: "platform", operator: "In", values: ["Instagram"]},
+  {column: "engagement_rate", operator: "Greater", values: [5.0]},
+  {column: "post_date", operator: "Between", values: ["2026-06-06", "2026-06-13"]}
+]
+
+Result: Dashboard shows Instagram videos from June 6-13 with 5%+ engagement rate
+
+=======================================================================
+
+=======================================================================
+EXAMPLE 9: REAL ESTATE SALES DASHBOARD
+=======================================================================
+
+Dashboard Purpose: Track property sales, agent performance, and market trends
+
+Columns Available:
+- property_type (Residential, Commercial, Industrial)
+- location (Downtown, Suburbs, Waterfront, Rural)
+- price (numeric)
+- agent_name
+- sale_status (Listed, Pending, Sold, Withdrawn)
+- sale_date
+- square_footage (numeric)
+- market_segment (Luxury, Mid-Range, Budget)
+
+User Query: "Downtown residential properties sold last quarter"
+
+Bot Captures:
+{
+  "location": "Downtown",
+  "property_type": "Residential",
+  "sale_status": "Sold",
+  "time_period": "last_quarter"
+}
+
+Filters Applied:
+[
+  {column: "location", operator: "In", values: ["Downtown"]},
+  {column: "property_type", operator: "In", values: ["Residential"]},
+  {column: "sale_status", operator: "In", values: ["Sold"]},
+  {column: "sale_date", operator: "Between", values: ["2026-04-01", "2026-06-30"]}
+]
+
+Result: Dashboard shows residential properties sold in downtown area in Q2 2026 with prices
+
+=======================================================================
+
+=======================================================================
+EXAMPLE 10: CUSTOMER SUPPORT DASHBOARD
+=======================================================================
+
+Dashboard Purpose: Track support tickets, response times, and customer satisfaction
+
+Columns Available:
+- ticket_priority (Low, Medium, High, Critical)
+- category (Billing, Technical, Sales, General)
+- status (Open, In Progress, Resolved, Closed)
+- resolution_time (numeric - hours)
+- customer_satisfaction (1-5 scale)
+- created_date
+- resolved_date
+- support_agent
+
+User Query: "Critical billing issues resolved last month with high satisfaction"
+
+Bot Captures:
+{
+  "ticket_priority": "Critical",
+  "category": "Billing",
+  "status": "Resolved",
+  "time_period": "last_month",
+  "customer_satisfaction": "high"
+}
+
+Filters Applied:
+[
+  {column: "ticket_priority", operator: "In", values: ["Critical"]},
+  {column: "category", operator: "In", values: ["Billing"]},
+  {column: "status", operator: "In", values: ["Resolved"]},
+  {column: "resolved_date", operator: "Between", values: ["2026-05-01", "2026-05-31"]},
+  {column: "customer_satisfaction", operator: "Greater", values: [4.0]}
+]
+
+Result: Dashboard shows critical billing tickets resolved in May with 4+ satisfaction rating
+
+=======================================================================
+
+KEY POINTS FOR YOUR LEAD:
+
+1. Same Bot, Different Domains
+   - Same code works for retail, HR, marketing, finance, healthcare, education, etc.
+
+2. Generic Processing
+   - Bot doesn't know column names in advance
+   - Learns from schema registration
+   - Adapts to ANY structure
+
+3. Query Understanding
+   - "Show X from Y" → filters applied automatically
+   - Time periods handled generically (last_month, last_quarter, etc.)
+   - Multiple filters combined in one query
+
+4. Scalability
+   - Add new dashboard = just register new schema
+   - No code changes needed
+   - Same pipeline processes all requests
+
+5. Flexibility
+   - Numerical ranges (high, low, specific values)
+   - Categorical filtering (exact matches)
+   - Date range filtering (time periods)
+   - Combined filters (multiple conditions)
+
+6. Real-World Use Cases
+   - Executives query sales dashboards
+   - HR managers query employee data
+   - Marketers analyze campaign performance
+   - Finance teams track transactions
+   - Hospital staff query patient data
+   - Teachers check student performance
+   - Support teams manage tickets
+
+Each dashboard has different columns but uses the SAME backend, SAME pipeline, SAME bot.
