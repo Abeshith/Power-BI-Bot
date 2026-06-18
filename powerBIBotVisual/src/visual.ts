@@ -29,6 +29,88 @@ export class Visual implements IVisual {
         if (!this.rendered) {
             this.renderChatbot();
         }
+        if (options.dataViews && options.dataViews.length > 0) {
+            this.extractAndRegisterSchema(options.dataViews[0]);
+        }
+    }
+
+    private extractAndRegisterSchema(dataView: any): void {
+        try {
+           console.log("DataView structure:", dataView);
+           if (!dataView.table || !dataView.table.columns) {
+               console.log("No table or columns in dataView, returning");
+               return;
+           }
+           const columns: any = {};
+           const categoricalCols: string[] = [];
+           const numericCols: string[] = [];
+           const dateCols: string[] = [];
+            
+           let tableName = "data";
+           if (dataView.table.columns && dataView.table.columns.length > 0) {
+               const firstCol = dataView.table.columns[0];
+               if (firstCol.queryName) {
+                   tableName = firstCol.queryName.split('.')[0];
+               }
+           }
+            
+           console.log(`Processing ${dataView.table.columns.length} columns`);
+
+           for (const col of dataView.table.columns) {
+               const colName = col.displayName || col.queryName;
+               const colType = col.type?.primitiveType || "text";
+               console.log(`Column: ${colName}, Type: ${colType}`);
+               let colData: any = { type: colType, displayName: colName };
+
+               if (dataView.table.rows) {
+                   const colIndex = dataView.table.columns.indexOf(col);
+                   const vals = dataView.table.rows.map((row: any) => row[colIndex]).filter((v: any) => v !== null && v !== undefined);
+
+                   if (colType === "text" || colType === "string") {
+                       colData.distinct_values = [...new Set(vals)];
+                       categoricalCols.push(colName);
+                   } else if (colType === "integer" || colType === "double") {
+                       const numVals = vals.map(v => Number(v)).filter(v => !isNaN(v));
+                       if (numVals.length > 0) {
+                           colData.min = Math.min(...numVals);
+                           colData.max = Math.max(...numVals);
+                           colData.average = numVals.reduce((a, b) => a + b, 0) / numVals.length;
+                       }
+                       numericCols.push(colName);
+                   } else if (colType === "date" || colType === "dateTime") {
+                       const dateVals = vals.map(v => new Date(v)).filter(v => !isNaN(v.getTime()));
+                       if (dateVals.length > 0) {
+                           colData.min_date = new Date(Math.min(...dateVals.map(d => d.getTime()))).toISOString();
+                           colData.max_date = new Date(Math.max(...dateVals.map(d => d.getTime()))).toISOString();
+                       }
+                       dateCols.push(colName);
+                   }
+               }
+
+               columns[colName] = colData;
+           }
+
+           const schema = {
+               tables: [tableName],
+               columns: columns,
+               categorical_columns: categoricalCols,
+               numeric_columns: numericCols,
+               date_columns: dateCols,
+               table_name: tableName
+           };
+           console.log("Final schema to send:", schema);
+           this.sendSchemaToBackend(schema);
+       } catch (err) {
+           console.log("Schema extraction error", err);
+       }
+    }
+
+    private sendSchemaToBackend(schema: any): void {
+        fetch(`${this.backendUrl}/api/schema/register`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(schema)
+        });
     }
 
     public getFormattingModel(): powerbi.visuals.FormattingModel {
@@ -45,14 +127,14 @@ export class Visual implements IVisual {
         this.target.style.padding = "10px";
         this.target.style.fontFamily = "Arial, sans-serif";
         this.target.style.backgroundColor = "#f5f5f5";
+        this.target.style.overflow = "hidden";
 
-        // Header
         const header = document.createElement("div");
         header.style.fontSize = "18px";
         header.style.fontWeight = "bold";
         header.style.marginBottom = "10px";
         header.style.color = "#333";
-        header.textContent = "🤖 Power BI Query Assistant";
+        header.textContent = "Power BI Query Assistant";
 
         // Input area
         const inputContainer = document.createElement("div");
@@ -99,15 +181,11 @@ export class Visual implements IVisual {
          
         const welcomeText = document.createElement("div");
         const welcomeTitle = document.createElement("strong");
-        welcomeTitle.textContent = "Welcome! 👋";
+        welcomeTitle.textContent = "Welcome!";
         welcomeText.appendChild(welcomeTitle);
-         
-        const br1 = document.createElement("br");
-        welcomeText.appendChild(br1);
-         
+        welcomeText.appendChild(document.createElement("br"));
         const text1 = document.createTextNode("Type your question to filter your dashboard:");
         welcomeText.appendChild(text1);
-         
         welcome.appendChild(welcomeText);
         messagesArea.appendChild(welcome);
 
@@ -163,6 +241,9 @@ export class Visual implements IVisual {
                    }).join(', ');
                    botMsg.textContent = `Bot: Applied ${data.filters.length} filter(s): ${filterSummary}\n\n⚠️ NOTE: Filters are being sent. If charts don't update, the dashboard may need a different configuration.`;
                     
+                   // Debug log
+                   console.log("Filters from backend:", JSON.stringify(data.filters, null, 2));
+                    
                    // Try to apply filters
                    this.applyFiltersToVisuals(data.filters);
                } else {
@@ -190,31 +271,25 @@ export class Visual implements IVisual {
     }
 
     private applyFiltersToVisuals(filters: any[]): void {
-       console.log("🔍 Attempting to apply filters...");
-       console.log("Filters:", JSON.stringify(filters, null, 2));
-         
-       if (!this.host) {
-           console.error("❌ Host is null - cannot apply filters");
+       if (!this.host || !filters || filters.length === 0) {
            return;
        }
 
+       // Apply all filters - Power BI will AND them since they're on different columns
        for (let i = 0; i < filters.length; i++) {
            const filter = filters[i];
-           const tableName = filter.target?.table || "hospital_data";
+           const tableName = filter.target?.table || "data";
            const columnName = filter.target?.column;
            const values = filter.conditions?.[0]?.values || [];
 
-           console.log(`\nFilter ${i}:`);
-           console.log(`  Table: ${tableName}`);
-           console.log(`  Column: ${columnName}`);
-           console.log(`  Values: ${JSON.stringify(values)}`);
+           console.log(`Applying filter ${i+1}/${filters.length}:`, {tableName, columnName, values});
 
-           if (!columnName || values.length === 0) continue;
+           if (!columnName || values.length === 0) {
+               console.warn(`Skipping filter ${i}: no column or values`);
+               continue;
+           }
 
            try {
-               // Power BI requires column reference in format: Table[Column]
-               const columnRef = `${tableName}[${columnName}]`;
-                
                const basicFilter = new BasicFilter(
                    {
                        table: tableName,
@@ -224,12 +299,10 @@ export class Visual implements IVisual {
                    values
                );
 
-               console.log(`  Column reference: ${columnRef}`);
-               console.log(`  Calling applyJsonFilter...`);
+               console.log(`Created BasicFilter for ${columnName}:`, basicFilter);
                this.host.applyJsonFilter(basicFilter, "general", "filter", FilterAction.merge);
-               console.log(`  ✅ Filter call succeeded`);
-           } catch (err: any) {
-               console.error(`  ❌ Filter failed:`, String(err));
+           } catch (err) {
+               console.error("Error applying filter for column:", columnName, err);
            }
        }
     }

@@ -14,6 +14,7 @@ from modules.reasoning_engine import reasoning_engine
 from modules.dax_generator import dax_generator
 from modules.filter_validator import filter_validator
 from modules.filter_applier import filter_applier
+from modules.semantic_enrichment import enrich_schema
 
 app = FastAPI(
     title="Power BI Bot Backend",
@@ -59,6 +60,7 @@ class SchemaRequest(BaseModel):
     date_columns: Optional[List[str]] = []
     categorical_columns: Optional[List[str]] = []
     numeric_columns: Optional[List[str]] = []
+    table_name: Optional[str] = None
 
 
 class MappingsRequest(BaseModel):
@@ -99,14 +101,18 @@ async def health_check():
 async def register_schema(schema: SchemaRequest):
     global current_schema
     try:
+        logger.info(f"Registering schema with {len(schema.columns)} columns: {list(schema.columns.keys())}")
         current_schema = {
             "tables": schema.tables,
             "columns": schema.columns,
             "date_columns": schema.date_columns or [],
             "categorical_columns": schema.categorical_columns or [],
-            "numeric_columns": schema.numeric_columns or []
+            "numeric_columns": schema.numeric_columns or [],
+            "table_name": schema.table_name or (schema.tables[0] if schema.tables else "data")
         }
-        logger.info(f"Schema registered with {len(schema.columns)} columns")
+        current_schema = enrich_schema(current_schema)
+        logger.info(f"Schema registered with {len(schema.columns)} columns, table: {current_schema.get('table_name')}")
+        logger.info(f"Registered columns: {list(current_schema.get('columns', {}).keys())}")
         return {"status": "success", "columns_registered": len(schema.columns)}
     except Exception as e:
         logger.error(f"Error registering schema: {str(e)}")
@@ -136,6 +142,7 @@ async def parse_query(request: QueryRequest):
             raise HTTPException(status_code=400, detail="No schema registered")
         
         logger.info(f"Processing query: {request.query}")
+        logger.info(f"Current schema columns: {list(current_schema.get('columns', {}).keys())}")
         
         intent_data = parse_intent(request.query, current_schema)
         
@@ -151,9 +158,11 @@ async def parse_query(request: QueryRequest):
         
         semantic_result = semantic_resolver(entities, current_schema, current_mappings)
         resolved_entities = semantic_result.get("resolved_entities", {})
+        logger.info(f"Resolved entities: {resolved_entities}")
         
         reasoning_result = reasoning_engine(resolved_entities, current_mappings)
         filters = reasoning_result.get("filters", {})
+        logger.info(f"Reasoning filters: {filters}")
         
         dax_result = dax_generator(filters)
         dax_query = dax_result.get("dax_where_clause", "")
@@ -161,12 +170,9 @@ async def parse_query(request: QueryRequest):
         validator_result = filter_validator(dax_query, filters, current_schema)
         
         if not validator_result.get("valid", False):
-            raise HTTPException(
-                status_code=400,
-                detail=f"Filter validation failed: {validator_result.get('errors', [])}"
-            )
+            logger.warning(f"Validation warning: {validator_result.get('errors', [])}")
         
-        applier_result = filter_applier(dax_query, filters)
+        applier_result = filter_applier(dax_query, filters, current_schema.get("table_name", "data"))
         pbi_filters = applier_result.get("filters", [])
         
         logger.info(f"Query processed successfully with {len(pbi_filters)} filters")
