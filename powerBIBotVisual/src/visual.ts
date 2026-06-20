@@ -4,7 +4,7 @@
 "use strict";
 
 import powerbi from "powerbi-visuals-api";
-import { BasicFilter } from "powerbi-models";
+import { BasicFilter, AdvancedFilter } from "powerbi-models";
 import "./../style/visual.less";
 
 import VisualConstructorOptions = powerbi.extensibility.visual.VisualConstructorOptions;
@@ -272,38 +272,60 @@ export class Visual implements IVisual {
 
     private applyFiltersToVisuals(filters: any[]): void {
        if (!this.host || !filters || filters.length === 0) {
+           console.log("No filters to apply");
            return;
        }
 
-       // Apply all filters - Power BI will AND them since they're on different columns
-       for (let i = 0; i < filters.length; i++) {
-           const filter = filters[i];
-           const tableName = filter.target?.table || "data";
-           const columnName = filter.target?.column;
-           const values = filter.conditions?.[0]?.values || [];
+       console.log(`Applying ${filters.length} filters`, filters);
 
-           console.log(`Applying filter ${i+1}/${filters.length}:`, {tableName, columnName, values});
-
-           if (!columnName || values.length === 0) {
-               console.warn(`Skipping filter ${i}: no column or values`);
-               continue;
+       try {
+           // Clear previous filters first by applying an empty filter
+           if (filters.length > 1) {
+               // For multi-filter scenarios, clear all previous filters first
+               const clearFilter = new BasicFilter(
+                   { table: "data", column: "" },
+                   "In",
+                   []
+               );
+               // This doesn't work, so let's use a different strategy
            }
 
-           try {
+           // Apply all filters with merge - Power BI should AND them across columns
+           for (let i = 0; i < filters.length; i++) {
+               const filter = filters[i];
+               const tableName = filter.target?.table || "data";
+               const columnName = filter.target?.column;
+               const values = filter.conditions?.[0]?.values || [];
+
+               if (!columnName || values.length === 0) {
+                   console.warn(`Skipping filter ${i}: no column or values`);
+                   continue;
+               }
+
                const basicFilter = new BasicFilter(
-                   {
-                       table: tableName,
-                       column: columnName
-                   },
+                   { table: tableName, column: columnName },
                    "In",
                    values
                );
 
-               console.log(`Created BasicFilter for ${columnName}:`, basicFilter);
-               this.host.applyJsonFilter(basicFilter, "general", "filter", FilterAction.merge);
-           } catch (err) {
-               console.error("Error applying filter for column:", columnName, err);
+               // Apply filters with staggered timing to ensure proper processing
+               const delayMs = i * 50;
+               console.log(`Scheduling filter ${i + 1}/${filters.length}: ${columnName} IN [${values}] after ${delayMs}ms`);
+                
+               setTimeout(() => {
+                   try {
+                       // Use FilterAction.merge for all filters so they combine
+                       console.log(`Actually applying filter: ${columnName} IN [${values}]`);
+                       this.host.applyJsonFilter(basicFilter, "general", "filter", FilterAction.merge);
+                   } catch (e) {
+                       console.error(`Failed to apply filter ${columnName}:`, e);
+                   }
+               }, delayMs);
            }
+
+           console.log("All filters scheduled for application");
+       } catch (err) {
+           console.error("Error scheduling filters:", err);
        }
     }
 }
