@@ -65,25 +65,35 @@ export class Visual implements IVisual {
                if (dataView.table.rows) {
                    const colIndex = dataView.table.columns.indexOf(col);
                    const vals = dataView.table.rows.map((row: any) => row[colIndex]).filter((v: any) => v !== null && v !== undefined);
+                   const isText = col.type?.text === true || col.type?.category != null;
+                   const isNumeric = col.type?.numeric === true || col.type?.integer === true;
+                   const isDate = col.type?.dateTime === true || col.type?.date === true;
 
-                   if (colType === "text" || colType === "string") {
-                       colData.distinct_values = [...new Set(vals)];
+                   if (isText) {
+                       colData.distinct_values = [...new Set(vals as string[])];
                        categoricalCols.push(colName);
-                   } else if (colType === "integer" || colType === "double") {
-                       const numVals = vals.map(v => Number(v)).filter(v => !isNaN(v));
+                   } else if (isNumeric) {
+                       const numVals = vals.map((v: any) => Number(v)).filter((v: number) => !isNaN(v));
                        if (numVals.length > 0) {
                            colData.min = Math.min(...numVals);
                            colData.max = Math.max(...numVals);
-                           colData.average = numVals.reduce((a, b) => a + b, 0) / numVals.length;
+                           colData.average = numVals.reduce((a: number, b: number) => a + b, 0) / numVals.length;
                        }
                        numericCols.push(colName);
-                   } else if (colType === "date" || colType === "dateTime") {
-                       const dateVals = vals.map(v => new Date(v)).filter(v => !isNaN(v.getTime()));
+                   } else if (isDate) {
+                       const dateVals = vals.map((v: any) => new Date(v)).filter((v: Date) => !isNaN(v.getTime()));
                        if (dateVals.length > 0) {
-                           colData.min_date = new Date(Math.min(...dateVals.map(d => d.getTime()))).toISOString();
-                           colData.max_date = new Date(Math.max(...dateVals.map(d => d.getTime()))).toISOString();
+                           colData.min_date = new Date(Math.min(...dateVals.map((d: Date) => d.getTime()))).toISOString();
+                           colData.max_date = new Date(Math.max(...dateVals.map((d: Date) => d.getTime()))).toISOString();
                        }
                        dateCols.push(colName);
+                   } else {
+                       // Fallback: if values look like strings, treat as categorical
+                       const strVals = vals.filter((v: any) => typeof v === "string");
+                       if (strVals.length > 0) {
+                           colData.distinct_values = [...new Set(strVals as string[])];
+                           categoricalCols.push(colName);
+                       }
                    }
                }
 
@@ -98,7 +108,7 @@ export class Visual implements IVisual {
                date_columns: dateCols,
                table_name: tableName
            };
-           console.log("Final schema to send:", schema);
+           console.log("Final schema to send:", JSON.stringify(schema, null, 2));
            this.sendSchemaToBackend(schema);
        } catch (err) {
            console.log("Schema extraction error", err);
@@ -233,18 +243,22 @@ export class Visual implements IVisual {
                botMsg.style.backgroundColor = "#f0f0f0";
                botMsg.style.borderRadius = "4px";
                 
-               if (data.filters && data.filters.length > 0) {
+           if (data.filters && data.filters.length > 0) {
                    const filterSummary = data.filters.map((f: any) => {
                        const col = f.target?.column || 'filter';
                        const values = f.conditions?.[0]?.values || [];
-                       return `${col} = ${values.join(', ')}`;
+                       if (Array.isArray(values)) {
+                           return `${col} = ${values.join(', ')}`;
+                       } else if (typeof values === 'object') {
+                           return `${col} = ${JSON.stringify(values)}`;
+                       } else {
+                           return `${col} = ${values}`;
+                       }
                    }).join(', ');
-                   botMsg.textContent = `Bot: Applied ${data.filters.length} filter(s): ${filterSummary}\n\n⚠️ NOTE: Filters are being sent. If charts don't update, the dashboard may need a different configuration.`;
+                   botMsg.textContent = `Bot: Applied ${data.filters.length} filter(s): ${filterSummary}`;
                     
-                   // Debug log
                    console.log("Filters from backend:", JSON.stringify(data.filters, null, 2));
                     
-                   // Try to apply filters
                    this.applyFiltersToVisuals(data.filters);
                } else {
                    botMsg.textContent = "Bot: Query processed (no filters applied)";
@@ -271,61 +285,35 @@ export class Visual implements IVisual {
     }
 
     private applyFiltersToVisuals(filters: any[]): void {
-       if (!this.host || !filters || filters.length === 0) {
-           console.log("No filters to apply");
-           return;
-       }
+       if (!this.host || !filters || filters.length === 0) return;
 
        console.log(`Applying ${filters.length} filters`, filters);
 
-       try {
-           // Clear previous filters first by applying an empty filter
-           if (filters.length > 1) {
-               // For multi-filter scenarios, clear all previous filters first
-               const clearFilter = new BasicFilter(
-                   { table: "data", column: "" },
-                   "In",
-                   []
-               );
-               // This doesn't work, so let's use a different strategy
+       for (let i = 0; i < filters.length; i++) {
+           const filter = filters[i];
+           const tableName = filter.target?.table;
+           const columnName = filter.target?.column;
+           const values = filter.conditions?.[0]?.values || [];
+
+           if (!tableName || !columnName || values.length === 0) {
+               console.warn(`Skipping filter ${i}: missing table, column or values`);
+               continue;
            }
 
-           // Apply all filters with merge - Power BI should AND them across columns
-           for (let i = 0; i < filters.length; i++) {
-               const filter = filters[i];
-               const tableName = filter.target?.table || "data";
-               const columnName = filter.target?.column;
-               const values = filter.conditions?.[0]?.values || [];
+           const basicFilter = new BasicFilter(
+               { table: tableName, column: columnName },
+               "In",
+               values
+           );
 
-               if (!columnName || values.length === 0) {
-                   console.warn(`Skipping filter ${i}: no column or values`);
-                   continue;
+           const delayMs = i * 50;
+           setTimeout(() => {
+               try {
+                   this.host.applyJsonFilter(basicFilter, "general", "filter", FilterAction.merge);
+               } catch (e) {
+                   console.error(`Failed to apply filter ${columnName}:`, e);
                }
-
-               const basicFilter = new BasicFilter(
-                   { table: tableName, column: columnName },
-                   "In",
-                   values
-               );
-
-               // Apply filters with staggered timing to ensure proper processing
-               const delayMs = i * 50;
-               console.log(`Scheduling filter ${i + 1}/${filters.length}: ${columnName} IN [${values}] after ${delayMs}ms`);
-                
-               setTimeout(() => {
-                   try {
-                       // Use FilterAction.merge for all filters so they combine
-                       console.log(`Actually applying filter: ${columnName} IN [${values}]`);
-                       this.host.applyJsonFilter(basicFilter, "general", "filter", FilterAction.merge);
-                   } catch (e) {
-                       console.error(`Failed to apply filter ${columnName}:`, e);
-                   }
-               }, delayMs);
-           }
-
-           console.log("All filters scheduled for application");
-       } catch (err) {
-           console.error("Error scheduling filters:", err);
+           }, delayMs);
        }
     }
 }
