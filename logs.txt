@@ -1,0 +1,522 @@
+Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:53704 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53704 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:08:48,709 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:08:48,710 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:53704 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53704 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:08:48,809 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:08:48,810 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:53704 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53704 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:08:48,844 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:08:48,844 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:53704 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53704 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:08:48,876 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:08:48,876 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:53704 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53704 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:08:49,024 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:08:49,024 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:53704 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53704 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:08:49,077 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:08:49,077 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:53704 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65468 - "OPTIONS /api/parse HTTP/1.1" 200 OK
+2026-07-11 16:11:38,529 - PowerBIBot - INFO - Processing query: Show patients with length of stay greater than 5 days
+2026-07-11 16:11:38,532 - PowerBIBot - INFO - Numeric/date filters extracted: [{'filterType': 'advanced', 'target_column': 'length_of_stay', 'conditions': [{'operator': 'GreaterThan', 'value': 5}], 'logicalOperator': 'And'}]
+2026-07-11 16:11:38,532 - PowerBIBot - INFO - Pre-LLM extraction found: {}
+2026-07-11 16:11:38,533 - PowerBIBot - INFO - Returning pre-LLM response: {'intent': 'filter_data', 'entities': {}, 'confidence': 0.9, 'filters': [], 'source': 'rule_engine', 'advanced_filters': [{'filterType': 'advanced', 'target_column': 'length_of_stay', 'conditions': [{'operator': 'GreaterThan', 'value': 5}], 'logicalOperator': 'And'}]}
+2026-07-11 16:11:38,533 - PowerBIBot - INFO - Using rule_engine filters directly: 1 filters
+INFO:     127.0.0.1:65468 - "POST /api/parse HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65468 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:11:38,676 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:11:38,677 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:65468 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65295 - "OPTIONS /api/parse HTTP/1.1" 200 OK
+2026-07-11 16:12:03,658 - PowerBIBot - INFO - Processing query: Show patients with length of stay greater than or equal to 10 days
+2026-07-11 16:12:03,660 - PowerBIBot - INFO - Numeric/date filters extracted: []
+2026-07-11 16:12:03,662 - PowerBIBot - INFO - Pre-LLM extraction found: {'Day': [10]}
+2026-07-11 16:12:03,664 - PowerBIBot - INFO - Returning pre-LLM response: {'intent': 'filter_data', 'entities': {'Day': {'type': 'filter', 'values': [10]}}, 'confidence': 0.9, 'filters': [{'target': {'table': '', 'column': 'Day'}, 'conditions': [{'operator': 'In', 'values': [10]}]}], 'source': 'rule_engine'}
+2026-07-11 16:12:03,665 - PowerBIBot - INFO - Using rule_engine filters directly: 1 filters
+INFO:     127.0.0.1:65295 - "POST /api/parse HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65295 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:12:03,994 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:12:03,995 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:65295 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58677 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58677 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58677 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58677 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:12:38,388 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:12:38,388 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:58677 - "POST /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:12:38,395 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:12:38,395 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:58677 - "POST /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:12:38,401 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:12:38,402 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:58677 - "POST /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:12:38,408 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:12:38,408 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:58677 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58677 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:12:38,870 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:12:38,870 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:58677 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58677 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:12:38,906 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:12:38,907 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:58677 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58677 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:12:38,931 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:12:38,931 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:58677 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58677 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:12:38,952 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:12:38,952 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:58677 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58677 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:12:38,970 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:12:38,970 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:58677 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58677 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:12:38,989 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:12:38,989 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:58677 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58677 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:12:39,013 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:12:39,015 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:58677 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58677 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:12:39,033 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:12:39,034 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:58677 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58677 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:12:39,054 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:12:39,055 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:58677 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58677 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:12:39,073 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:12:39,073 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:58677 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58677 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:12:39,093 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:12:39,093 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:58677 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58677 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:12:39,112 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:12:39,113 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:58677 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58677 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:12:39,131 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:12:39,132 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:58677 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58677 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:12:39,151 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:12:39,152 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:58677 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58677 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:12:39,186 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:12:39,186 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:58677 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58677 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:12:39,204 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:12:39,204 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:58677 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58677 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:12:39,241 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:12:39,241 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:58677 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58677 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:12:39,284 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:12:39,284 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:58677 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58677 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:12:39,313 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:12:39,314 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:58677 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58677 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:12:39,338 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:12:39,339 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:58677 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58677 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:12:39,356 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:12:39,357 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:58677 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58677 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:12:39,380 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:12:39,381 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:58677 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58677 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:12:39,412 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:12:39,412 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:58677 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58677 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:12:39,436 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:12:39,436 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:58677 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58677 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:12:39,493 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:12:39,494 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:58677 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58677 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:12:39,516 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:12:39,516 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:58677 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58677 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:12:39,535 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:12:39,536 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:58677 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58677 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:12:39,555 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:12:39,556 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:58677 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58677 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:12:39,626 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:12:39,626 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:58677 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58677 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:12:39,648 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:12:39,649 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:58677 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58677 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:12:39,665 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:12:39,665 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:58677 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58677 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:12:39,964 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:12:39,965 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:58677 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58677 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:12:40,008 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:12:40,010 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:58677 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58677 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:12:40,034 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:12:40,034 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:58677 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58677 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:12:40,068 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:12:40,068 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:58677 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58677 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:12:40,086 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:12:40,086 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:58677 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58677 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:12:40,105 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:12:40,105 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:58677 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58677 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:12:40,127 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:12:40,127 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:58677 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58677 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:12:40,198 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:12:40,198 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:58677 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58677 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:12:40,220 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:12:40,221 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:58677 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58677 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:12:40,252 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:12:40,252 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:58677 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58677 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:12:40,270 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:12:40,271 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:58677 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58677 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:12:40,285 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:12:40,285 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:58677 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58677 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:12:40,314 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:12:40,314 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:58677 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58677 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:12:40,362 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:12:40,363 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:58677 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58677 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:12:40,425 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:12:40,426 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:58677 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58677 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:12:41,020 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:12:41,020 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:58677 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58677 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:12:41,068 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:12:41,068 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:58677 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58677 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:12:41,093 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:12:41,093 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:58677 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58677 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:12:41,110 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:12:41,111 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:58677 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58677 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:12:41,157 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:12:41,158 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:58677 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58677 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:12:41,190 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:12:41,190 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:58677 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58677 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:12:41,239 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:12:41,240 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:58677 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58677 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:12:41,331 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:12:41,331 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:58677 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58677 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:12:41,357 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:12:41,357 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:58677 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58677 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:12:41,442 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:12:41,442 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:58677 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58677 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:12:42,112 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:12:42,112 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:58677 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62604 - "OPTIONS /api/parse HTTP/1.1" 200 OK
+2026-07-11 16:14:11,334 - PowerBIBot - INFO - Processing query: Show patients with length of stay greater than 5 days
+2026-07-11 16:14:11,338 - PowerBIBot - INFO - Numeric/date filters extracted: [{'filterType': 'advanced', 'target_column': 'length_of_stay', 'conditions': [{'operator': 'GreaterThan', 'value': 5}], 'logicalOperator': 'And'}]
+2026-07-11 16:14:11,338 - PowerBIBot - INFO - Pre-LLM extraction found: {}
+2026-07-11 16:14:11,338 - PowerBIBot - INFO - Returning pre-LLM response: {'intent': 'filter_data', 'entities': {}, 'confidence': 0.9, 'filters': [], 'source': 'rule_engine', 'advanced_filters': [{'filterType': 'advanced', 'target_column': 'length_of_stay', 'conditions': [{'operator': 'GreaterThan', 'value': 5}], 'logicalOperator': 'And'}]}
+2026-07-11 16:14:11,339 - PowerBIBot - INFO - Using rule_engine filters directly: 1 filters
+INFO:     127.0.0.1:62604 - "POST /api/parse HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62604 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:14:11,632 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:14:11,632 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:62604 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57407 - "OPTIONS /api/parse HTTP/1.1" 200 OK
+2026-07-11 16:14:57,930 - PowerBIBot - INFO - Processing query: Show patients with hospital cost greater than or equal to 50000
+2026-07-11 16:14:57,932 - PowerBIBot - INFO - Numeric/date filters extracted: []
+2026-07-11 16:14:57,938 - PowerBIBot - INFO - Query complexity: medium
+2026-07-11 16:14:57,953 - PowerBIBot - INFO - Schema description sent to LLM:
+- Year: [2026]
+- Quarter: [Qtr 2]
+- Month: [April, May, June]
+- Day: [11, 22, 30, 25, 26, 8, 15, 12, 20, 18, 16, 2, 10, 9]
+- admission_status: [Discharged, Admitted]
+- department: [Emergency, ICU, Cardiology, Surgery, Pediatrics]
+- hospital_cost: 4
+- length_of_stay: 4
+- patient_condition: [Recovering, Critical, Stable]
+2026-07-11 16:14:59,355 - PowerBIBot - INFO - LLM raw response: Since the query mentions "hospital cost" which matches the column "hospital_cost" in the schema, and the value "greater than or equal to 50000" does not match any exact value in the schema but implies a condition on the "hospital_cost" column, we can infer the filter condition. However, given the rules, we can only map exact values from the schema. The query does not directly match any exact value in the schema for "hospital_cost" since the schema only provides a count (4) which does not directly relate to the query's condition. 
+
+Given the rules and the provided schema, there's no direct match for the query's condition ("greater than or equal to 50000") to any exact value in the schema. The schema for "hospital_cost" is a count (4), not a range or specific values that can be directly compared to "50000". Thus, according to the rules provided, we cannot extract a filter condition that matches the schema's exact values.
+
+However, interpreting the task as requiring the identification of the column involved in the query:
+
+{"column_name": "hospital_cost", "confidence": 0.0}
+2026-07-11 16:14:59,356 - PowerBIBot - INFO - Parsed intent_data: {'column_name': 'hospital_cost', 'confidence': 0.0}
+2026-07-11 16:14:59,356 - PowerBIBot - INFO - Final intent_data: {'intent': 'filter_data', 'entities': {'extracted_filters': {'column_name': 'hospital_cost'}, 'time_filters': {}}, 'confidence': 0.0}
+2026-07-11 16:14:59,357 - PowerBIBot - WARNING - Low confidence parse: 0.0
+2026-07-11 16:14:59,358 - PowerBIBot - INFO - Resolved entities: {'column_name': 'hospital_cost'}
+2026-07-11 16:14:59,358 - PowerBIBot - INFO - Reasoning filters: {'column_name': 'hospital_cost'}
+2026-07-11 16:14:59,361 - PowerBIBot - INFO - Query processed successfully with 1 filters
+INFO:     127.0.0.1:57407 - "POST /api/parse HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57407 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:14:59,792 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:14:59,794 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:57407 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63648 - "OPTIONS /api/parse HTTP/1.1" 200 OK
+2026-07-11 16:15:14,623 - PowerBIBot - INFO - Processing query: Show patients with hospital cost equal to 45000
+2026-07-11 16:15:14,623 - PowerBIBot - INFO - Numeric/date filters extracted: [{'filterType': 'advanced', 'target_column': 'hospital_cost', 'conditions': [{'operator': 'Is', 'value': 45000}], 'logicalOperator': 'And'}]
+2026-07-11 16:15:14,624 - PowerBIBot - INFO - Pre-LLM extraction found: {}
+2026-07-11 16:15:14,624 - PowerBIBot - INFO - Returning pre-LLM response: {'intent': 'filter_data', 'entities': {}, 'confidence': 0.9, 'filters': [], 'source': 'rule_engine', 'advanced_filters': [{'filterType': 'advanced', 'target_column': 'hospital_cost', 'conditions': [{'operator': 'Is', 'value': 45000}], 'logicalOperator': 'And'}]}
+2026-07-11 16:15:14,625 - PowerBIBot - INFO - Using rule_engine filters directly: 1 filters
+INFO:     127.0.0.1:63648 - "POST /api/parse HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63648 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:15:14,908 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:15:14,909 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:63648 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64883 - "OPTIONS /api/parse HTTP/1.1" 200 OK
+2026-07-11 16:15:32,482 - PowerBIBot - INFO - Processing query: Show patients with length of stay equal to 7 days
+2026-07-11 16:15:32,483 - PowerBIBot - INFO - Numeric/date filters extracted: [{'filterType': 'advanced', 'target_column': 'length_of_stay', 'conditions': [{'operator': 'Is', 'value': 7}], 'logicalOperator': 'And'}]
+2026-07-11 16:15:32,483 - PowerBIBot - INFO - Pre-LLM extraction found: {}
+2026-07-11 16:15:32,485 - PowerBIBot - INFO - Returning pre-LLM response: {'intent': 'filter_data', 'entities': {}, 'confidence': 0.9, 'filters': [], 'source': 'rule_engine', 'advanced_filters': [{'filterType': 'advanced', 'target_column': 'length_of_stay', 'conditions': [{'operator': 'Is', 'value': 7}], 'logicalOperator': 'And'}]}
+2026-07-11 16:15:32,485 - PowerBIBot - INFO - Using rule_engine filters directly: 1 filters
+INFO:     127.0.0.1:64883 - "POST /api/parse HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64883 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:15:32,763 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:15:32,763 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:64883 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53681 - "OPTIONS /api/parse HTTP/1.1" 200 OK
+2026-07-11 16:17:35,668 - PowerBIBot - INFO - Processing query: Show patients with length of stay less than or equal to 3 days
+2026-07-11 16:17:35,669 - PowerBIBot - INFO - Numeric/date filters extracted: []
+2026-07-11 16:17:35,669 - PowerBIBot - INFO - Query complexity: medium
+2026-07-11 16:17:35,683 - PowerBIBot - INFO - Schema description sent to LLM:
+- Year: [2026]
+- Quarter: [Qtr 2]
+- Month: [April, May, June]
+- Day: [11, 22, 30, 25, 26, 8, 15, 12, 20, 18, 16, 2, 10, 9]
+- admission_status: [Discharged, Admitted]
+- department: [Emergency, ICU, Cardiology, Surgery, Pediatrics]
+- hospital_cost: 4
+- length_of_stay: 4
+- patient_condition: [Recovering, Critical, Stable]
+2026-07-11 16:17:36,012 - PowerBIBot - INFO - LLM raw response: {"length_of_stay": ["1", "2", "3"], "confidence": 0.9}
+2026-07-11 16:17:36,012 - PowerBIBot - INFO - Parsed intent_data: {'length_of_stay': ['1', '2', '3'], 'confidence': 0.9}
+2026-07-11 16:17:36,012 - PowerBIBot - INFO - Final intent_data: {'intent': 'filter_data', 'entities': {'extracted_filters': {'length_of_stay': ['1', '2', '3']}, 'time_filters': {}}, 'confidence': 0.9}
+2026-07-11 16:17:36,013 - PowerBIBot - INFO - Resolved entities: {'Day': 2, 'length_of_stay': ['1', '3']}
+2026-07-11 16:17:36,013 - PowerBIBot - INFO - Reasoning filters: {'Day': 2, 'length_of_stay': ['1', '3']}
+2026-07-11 16:17:36,014 - PowerBIBot - INFO - Query processed successfully with 2 filters
+INFO:     127.0.0.1:53681 - "POST /api/parse HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53681 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:17:36,298 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:17:36,300 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:53681 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49850 - "OPTIONS /api/parse HTTP/1.1" 200 OK
+2026-07-11 16:18:48,395 - PowerBIBot - INFO - Processing query: Show patients admitted after May 10 2026
+2026-07-11 16:18:48,396 - PowerBIBot - INFO - Numeric/date filters extracted: []
+2026-07-11 16:18:48,396 - PowerBIBot - INFO - Pre-LLM extraction found: {'Year': [2026], 'Month': ['May'], 'Day': [26, 20, 2, 10], 'admission_status': ['Admitted']}
+2026-07-11 16:18:48,399 - PowerBIBot - INFO - Returning pre-LLM response: {'intent': 'filter_data', 'entities': {'Year': {'type': 'filter', 'values': [2026]}, 'Month': {'type': 'filter', 'values': ['May']}, 'Day': {'type': 'filter', 'values': [26, 20, 2, 10]}, 'admission_status': {'type': 'filter', 'values': ['Admitted']}}, 'confidence': 0.9, 'filters': [{'target': {'table': '', 'column': 'Year'}, 'conditions': [{'operator': 'In', 'values': [2026]}]}, {'target': {'table': '', 'column': 'Month'}, 'conditions': [{'operator': 'In', 'values': ['May']}]}, {'target': {'table': '', 'column': 'Day'}, 'conditions': [{'operator': 'In', 'values': [26, 20, 2, 10]}]}, {'target': {'table': '', 'column': 'admission_status'}, 'conditions': [{'operator': 'In', 'values': ['Admitted']}]}], 'source': 'rule_engine'}
+2026-07-11 16:18:48,403 - PowerBIBot - INFO - Using rule_engine filters directly: 4 filters
+INFO:     127.0.0.1:49850 - "POST /api/parse HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49850 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:18:48,826 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:18:48,826 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:49850 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53967 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:18:54,109 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:18:54,110 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:53967 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53967 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:18:55,553 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:18:55,554 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:53967 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56917 - "OPTIONS /api/parse HTTP/1.1" 200 OK
+2026-07-11 16:19:41,873 - PowerBIBot - INFO - Processing query: Show patients admitted on April 22 2026
+2026-07-11 16:19:41,873 - PowerBIBot - INFO - Numeric/date filters extracted: []
+2026-07-11 16:19:41,874 - PowerBIBot - INFO - Pre-LLM extraction found: {'Year': [2026], 'Month': ['April'], 'Day': [22, 26, 20, 2], 'admission_status': ['Admitted']}
+2026-07-11 16:19:41,874 - PowerBIBot - INFO - Returning pre-LLM response: {'intent': 'filter_data', 'entities': {'Year': {'type': 'filter', 'values': [2026]}, 'Month': {'type': 'filter', 'values': ['April']}, 'Day': {'type': 'filter', 'values': [22, 26, 20, 2]}, 'admission_status': {'type': 'filter', 'values': ['Admitted']}}, 'confidence': 0.9, 'filters': [{'target': {'table': '', 'column': 'Year'}, 'conditions': [{'operator': 'In', 'values': [2026]}]}, {'target': {'table': '', 'column': 'Month'}, 'conditions': [{'operator': 'In', 'values': ['April']}]}, {'target': {'table': '', 'column': 'Day'}, 'conditions': [{'operator': 'In', 'values': [22, 26, 20, 2]}]}, {'target': {'table': '', 'column': 'admission_status'}, 'conditions': [{'operator': 'In', 'values': ['Admitted']}]}], 'source': 'rule_engine'}
+2026-07-11 16:19:41,875 - PowerBIBot - INFO - Using rule_engine filters directly: 4 filters
+INFO:     127.0.0.1:56917 - "POST /api/parse HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56917 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:19:42,314 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:19:42,314 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:56917 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59709 - "OPTIONS /api/parse HTTP/1.1" 200 OK
+2026-07-11 16:23:34,681 - PowerBIBot - INFO - Processing query: Show patients with length of stay greater than 5 days
+2026-07-11 16:23:34,684 - PowerBIBot - INFO - Numeric/date filters extracted: [{'filterType': 'advanced', 'target_column': 'length_of_stay', 'conditions': [{'operator': 'GreaterThan', 'value': 5}], 'logicalOperator': 'And'}]
+2026-07-11 16:23:34,685 - PowerBIBot - INFO - Pre-LLM extraction found: {}
+2026-07-11 16:23:34,685 - PowerBIBot - INFO - Returning pre-LLM response: {'intent': 'filter_data', 'entities': {}, 'confidence': 0.9, 'filters': [], 'source': 'rule_engine', 'advanced_filters': [{'filterType': 'advanced', 'target_column': 'length_of_stay', 'conditions': [{'operator': 'GreaterThan', 'value': 5}], 'logicalOperator': 'And'}]}
+2026-07-11 16:23:34,686 - PowerBIBot - INFO - Using rule_engine filters directly: 1 filters
+INFO:     127.0.0.1:59709 - "POST /api/parse HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59709 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:23:35,002 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:23:35,002 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:59709 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55860 - "OPTIONS /api/parse HTTP/1.1" 200 OK
+2026-07-11 16:25:51,579 - PowerBIBot - INFO - Processing query: Show patients with length of stay less than 5 days
+2026-07-11 16:25:51,580 - PowerBIBot - INFO - Numeric/date filters extracted: [{'filterType': 'advanced', 'target_column': 'length_of_stay', 'conditions': [{'operator': 'LessThan', 'value': 5}], 'logicalOperator': 'And'}]
+2026-07-11 16:25:51,580 - PowerBIBot - INFO - Pre-LLM extraction found: {}
+2026-07-11 16:25:51,580 - PowerBIBot - INFO - Returning pre-LLM response: {'intent': 'filter_data', 'entities': {}, 'confidence': 0.9, 'filters': [], 'source': 'rule_engine', 'advanced_filters': [{'filterType': 'advanced', 'target_column': 'length_of_stay', 'conditions': [{'operator': 'LessThan', 'value': 5}], 'logicalOperator': 'And'}]}
+2026-07-11 16:25:51,581 - PowerBIBot - INFO - Using rule_engine filters directly: 1 filters
+INFO:     127.0.0.1:55860 - "POST /api/parse HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55860 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:25:51,836 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:25:51,836 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:55860 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58381 - "OPTIONS /api/parse HTTP/1.1" 200 OK
+2026-07-11 16:26:07,121 - PowerBIBot - INFO - Processing query: Show patients with hospital cost greater than 40000
+2026-07-11 16:26:07,121 - PowerBIBot - INFO - Numeric/date filters extracted: [{'filterType': 'advanced', 'target_column': 'hospital_cost', 'conditions': [{'operator': 'GreaterThan', 'value': 40000}], 'logicalOperator': 'And'}]
+2026-07-11 16:26:07,122 - PowerBIBot - INFO - Pre-LLM extraction found: {}
+2026-07-11 16:26:07,122 - PowerBIBot - INFO - Returning pre-LLM response: {'intent': 'filter_data', 'entities': {}, 'confidence': 0.9, 'filters': [], 'source': 'rule_engine', 'advanced_filters': [{'filterType': 'advanced', 'target_column': 'hospital_cost', 'conditions': [{'operator': 'GreaterThan', 'value': 40000}], 'logicalOperator': 'And'}]}
+2026-07-11 16:26:07,123 - PowerBIBot - INFO - Using rule_engine filters directly: 1 filters
+INFO:     127.0.0.1:58381 - "POST /api/parse HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58381 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:26:07,568 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:26:07,568 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:58381 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53998 - "OPTIONS /api/parse HTTP/1.1" 200 OK
+2026-07-11 16:26:25,717 - PowerBIBot - INFO - Processing query: Show patients with hospital cost less than 30000
+2026-07-11 16:26:25,717 - PowerBIBot - INFO - Numeric/date filters extracted: [{'filterType': 'advanced', 'target_column': 'hospital_cost', 'conditions': [{'operator': 'LessThan', 'value': 30000}], 'logicalOperator': 'And'}]
+2026-07-11 16:26:25,717 - PowerBIBot - INFO - Pre-LLM extraction found: {'Day': [30]}
+2026-07-11 16:26:25,718 - PowerBIBot - INFO - Returning pre-LLM response: {'intent': 'filter_data', 'entities': {'Day': {'type': 'filter', 'values': [30]}}, 'confidence': 0.9, 'filters': [{'target': {'table': '', 'column': 'Day'}, 'conditions': [{'operator': 'In', 'values': [30]}]}], 'source': 'rule_engine', 'advanced_filters': [{'filterType': 'advanced', 'target_column': 'hospital_cost', 'conditions': [{'operator': 'LessThan', 'value': 30000}], 'logicalOperator': 'And'}]}
+2026-07-11 16:26:25,718 - PowerBIBot - INFO - Using rule_engine filters directly: 2 filters
+INFO:     127.0.0.1:53998 - "POST /api/parse HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53998 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:26:26,015 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:26:26,015 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:53998 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50212 - "OPTIONS /api/parse HTTP/1.1" 200 OK
+2026-07-11 16:26:38,269 - PowerBIBot - INFO - Processing query: Show patients admitted before June 1 2026
+2026-07-11 16:26:38,269 - PowerBIBot - INFO - Numeric/date filters extracted: []
+2026-07-11 16:26:38,270 - PowerBIBot - INFO - Pre-LLM extraction found: {'Year': [2026], 'Month': ['June'], 'Day': [26, 20, 2], 'admission_status': ['Admitted']}
+2026-07-11 16:26:38,270 - PowerBIBot - INFO - Returning pre-LLM response: {'intent': 'filter_data', 'entities': {'Year': {'type': 'filter', 'values': [2026]}, 'Month': {'type': 'filter', 'values': ['June']}, 'Day': {'type': 'filter', 'values': [26, 20, 2]}, 'admission_status': {'type': 'filter', 'values': ['Admitted']}}, 'confidence': 0.9, 'filters': [{'target': {'table': '', 'column': 'Year'}, 'conditions': [{'operator': 'In', 'values': [2026]}]}, {'target': {'table': '', 'column': 'Month'}, 'conditions': [{'operator': 'In', 'values': ['June']}]}, {'target': {'table': '', 'column': 'Day'}, 'conditions': [{'operator': 'In', 'values': [26, 20, 2]}]}, {'target': {'table': '', 'column': 'admission_status'}, 'conditions': [{'operator': 'In', 'values': ['Admitted']}]}], 'source': 'rule_engine'}
+2026-07-11 16:26:38,272 - PowerBIBot - INFO - Using rule_engine filters directly: 4 filters
+INFO:     127.0.0.1:50212 - "POST /api/parse HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50212 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:26:38,493 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:26:38,493 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:50212 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64998 - "OPTIONS /api/parse HTTP/1.1" 200 OK
+2026-07-11 16:35:13,185 - PowerBIBot - INFO - Processing query: Show patients with length of stay equal to 7 days
+2026-07-11 16:35:13,186 - PowerBIBot - INFO - Numeric/date filters extracted: [{'filterType': 'advanced', 'target_column': 'length_of_stay', 'conditions': [{'operator': 'Is', 'value': 7}], 'logicalOperator': 'And'}]
+2026-07-11 16:35:13,186 - PowerBIBot - INFO - Pre-LLM extraction found: {}
+2026-07-11 16:35:13,186 - PowerBIBot - INFO - Returning pre-LLM response: {'intent': 'filter_data', 'entities': {}, 'confidence': 0.9, 'filters': [], 'source': 'rule_engine', 'advanced_filters': [{'filterType': 'advanced', 'target_column': 'length_of_stay', 'conditions': [{'operator': 'Is', 'value': 7}], 'logicalOperator': 'And'}]}
+2026-07-11 16:35:13,188 - PowerBIBot - INFO - Using rule_engine filters directly: 1 filters
+INFO:     127.0.0.1:64998 - "POST /api/parse HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64998 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:35:13,481 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:35:13,484 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:64998 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61061 - "OPTIONS /api/parse HTTP/1.1" 200 OK
+2026-07-11 16:35:19,223 - PowerBIBot - INFO - Processing query: Show patients with length of stay greater than or equal to 10 days
+2026-07-11 16:35:19,225 - PowerBIBot - INFO - Numeric/date filters extracted: []
+2026-07-11 16:35:19,226 - PowerBIBot - INFO - Pre-LLM extraction found: {'Day': [10]}
+2026-07-11 16:35:19,228 - PowerBIBot - INFO - Returning pre-LLM response: {'intent': 'filter_data', 'entities': {'Day': {'type': 'filter', 'values': [10]}}, 'confidence': 0.9, 'filters': [{'target': {'table': '', 'column': 'Day'}, 'conditions': [{'operator': 'In', 'values': [10]}]}], 'source': 'rule_engine'}
+2026-07-11 16:35:19,228 - PowerBIBot - INFO - Using rule_engine filters directly: 1 filters
+INFO:     127.0.0.1:61061 - "POST /api/parse HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61061 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:35:19,685 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:35:19,688 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:61061 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60908 - "OPTIONS /api/parse HTTP/1.1" 200 OK
+2026-07-11 16:40:00,050 - PowerBIBot - INFO - Processing query: Show patients with hospital cost less than 30000
+2026-07-11 16:40:00,051 - PowerBIBot - INFO - Numeric/date filters extracted: [{'filterType': 'advanced', 'target_column': 'hospital_cost', 'conditions': [{'operator': 'LessThan', 'value': 30000}], 'logicalOperator': 'And'}]
+2026-07-11 16:40:00,052 - PowerBIBot - INFO - Pre-LLM extraction found: {'Day': [30]}
+2026-07-11 16:40:00,052 - PowerBIBot - INFO - Returning pre-LLM response: {'intent': 'filter_data', 'entities': {'Day': {'type': 'filter', 'values': [30]}}, 'confidence': 0.9, 'filters': [{'target': {'table': '', 'column': 'Day'}, 'conditions': [{'operator': 'In', 'values': [30]}]}], 'source': 'rule_engine', 'advanced_filters': [{'filterType': 'advanced', 'target_column': 'hospital_cost', 'conditions': [{'operator': 'LessThan', 'value': 30000}], 'logicalOperator': 'And'}]}
+2026-07-11 16:40:00,053 - PowerBIBot - INFO - Using rule_engine filters directly: 2 filters
+INFO:     127.0.0.1:60908 - "POST /api/parse HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60908 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:40:00,372 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:40:00,372 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:60908 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65376 - "OPTIONS /api/parse HTTP/1.1" 200 OK
+2026-07-11 16:40:24,943 - PowerBIBot - INFO - Processing query: Show patients with hospital cost greater than 40000
+2026-07-11 16:40:24,945 - PowerBIBot - INFO - Numeric/date filters extracted: [{'filterType': 'advanced', 'target_column': 'hospital_cost', 'conditions': [{'operator': 'GreaterThan', 'value': 40000}], 'logicalOperator': 'And'}]
+2026-07-11 16:40:24,945 - PowerBIBot - INFO - Pre-LLM extraction found: {}
+2026-07-11 16:40:24,945 - PowerBIBot - INFO - Returning pre-LLM response: {'intent': 'filter_data', 'entities': {}, 'confidence': 0.9, 'filters': [], 'source': 'rule_engine', 'advanced_filters': [{'filterType': 'advanced', 'target_column': 'hospital_cost', 'conditions': [{'operator': 'GreaterThan', 'value': 40000}], 'logicalOperator': 'And'}]}
+2026-07-11 16:40:24,946 - PowerBIBot - INFO - Using rule_engine filters directly: 1 filters
+INFO:     127.0.0.1:65376 - "POST /api/parse HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65376 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:40:25,294 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:40:25,294 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:65376 - "POST /api/schema/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58312 - "OPTIONS /api/parse HTTP/1.1" 200 OK
+2026-07-11 16:40:32,274 - PowerBIBot - INFO - Processing query: Show patients with hospital cost less than 30000
+2026-07-11 16:40:32,275 - PowerBIBot - INFO - Numeric/date filters extracted: [{'filterType': 'advanced', 'target_column': 'hospital_cost', 'conditions': [{'operator': 'LessThan', 'value': 30000}], 'logicalOperator': 'And'}]
+2026-07-11 16:40:32,275 - PowerBIBot - INFO - Pre-LLM extraction found: {'Day': [30]}
+2026-07-11 16:40:32,276 - PowerBIBot - INFO - Returning pre-LLM response: {'intent': 'filter_data', 'entities': {'Day': {'type': 'filter', 'values': [30]}}, 'confidence': 0.9, 'filters': [{'target': {'table': '', 'column': 'Day'}, 'conditions': [{'operator': 'In', 'values': [30]}]}],'source': 'rule_engine', 'advanced_filters': [{'filterType': 'advanced', 'target_column': 'hospital_cost', 'conditions': [{'operator': 'LessThan', 'value': 30000}], 'logicalOperator': 'And'}]}
+2026-07-11 16:40:32,277 - PowerBIBot - INFO - Using rule_engine filters directly: 2 filters
+INFO:     127.0.0.1:58312 - "POST /api/parse HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58312 - "OPTIONS /api/schema/register HTTP/1.1" 200 OK
+2026-07-11 16:40:32,779 - PowerBIBot - INFO - Registering schema with 9 columns: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition']
+2026-07-11 16:40:32,780 - PowerBIBot - INFO - Schema registered: ['Year', 'Quarter', 'Month', 'Day', 'admission_status', 'department', 'hospital_cost', 'length_of_stay', 'patient_condition'], table: hospital_data
+INFO:     127.0.0.1:58312 - "POST /api/schema/register HTTP/1.1" 200 OK

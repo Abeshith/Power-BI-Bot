@@ -1,3 +1,6 @@
+import re
+
+
 def classify_query_complexity(query: str) -> str:
     complex_keywords = ["compare", "trending", "average", "total", "calculate", "group", "sum", "count", "growing", "increasing"]
     query_lower = query.lower()
@@ -19,14 +22,15 @@ def extract_simple_filters(query: str, schema: dict) -> dict:
         aliases = col_info.get("aliases", [])
 
         for val in distinct_values:
-            if str(val).lower() in query_lower:
+            val_str = str(val).lower()
+            if re.search(r'\b' + re.escape(val_str) + r'\b', query_lower):
                 if col_name not in filters:
                     filters[col_name] = []
                 if val not in filters[col_name]:
                     filters[col_name].append(val)
 
         for alias in aliases:
-            if alias.lower() in query_lower:
+            if re.search(r'\b' + re.escape(alias.lower()) + r'\b', query_lower):
                 for val in distinct_values:
                     if col_name not in filters:
                         filters[col_name] = []
@@ -36,7 +40,7 @@ def extract_simple_filters(query: str, schema: dict) -> dict:
     return filters
 
 
-def format_simple_response(filters: dict, table_name: str = "data") -> dict:
+def format_simple_response(filters: dict, table_name: str = "") -> dict:
     response_filters = []
     for col, values in filters.items():
         vals = values if isinstance(values, list) else [values]

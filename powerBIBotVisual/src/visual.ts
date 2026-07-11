@@ -78,6 +78,11 @@ export class Visual implements IVisual {
                            colData.min = Math.min(...numVals);
                            colData.max = Math.max(...numVals);
                            colData.average = numVals.reduce((a: number, b: number) => a + b, 0) / numVals.length;
+                           // For low-cardinality numeric cols (Year/Month/Day), expose distinct values
+                           const uniqueNums = [...new Set(numVals)] as number[];
+                           if (uniqueNums.length <= 500) {
+                               colData.distinct_values = uniqueNums.sort((a, b) => a - b);
+                           }
                        }
                        numericCols.push(colName);
                    } else if (isDate) {
@@ -245,15 +250,15 @@ export class Visual implements IVisual {
                if (data.filters && data.filters.length > 0) {
                    const filterSummary = data.filters.map((f: any) => {
                        const col = f.target?.column || 'filter';
-                       const values = f.conditions?.[0]?.values || [];
-                       return `${col} = ${values.join(', ')}`;
+                       if (f.filterType === "advanced") {
+                           const parts = f.conditions.map((c: any) => `${c.operator} ${c.value}`).join(" AND ");
+                           return `${col} ${parts}`;
+                       }
+                       return `${col} = ${(f.values || []).join(', ')}`;
                    }).join(', ');
                    botMsg.textContent = `Bot: Applied ${data.filters.length} filter(s): ${filterSummary}`;
                     
-                   // Debug log
                    console.log("Filters from backend:", JSON.stringify(data.filters, null, 2));
-                    
-                   // Try to apply filters
                    this.applyFiltersToVisuals(data.filters);
                } else {
                    botMsg.textContent = "Bot: Query processed (no filters applied)";
@@ -284,16 +289,32 @@ export class Visual implements IVisual {
 
         console.log(`Applying ${filters.length} filters`, JSON.stringify(filters));
 
-        const basicFilters = filters
-            .filter((f: any) => f.target?.table && f.target?.column && f.conditions?.[0]?.values?.length > 0)
-            .map((f: any) => new BasicFilter(
-                { table: f.target.table, column: f.target.column },
-                "In",
-                f.conditions[0].values
-            ));
+        const allFilters: (BasicFilter | AdvancedFilter)[] = [];
 
-        if (basicFilters.length === 0) return;
+        for (const f of filters) {
+            if (!f.target?.table || !f.target?.column) continue;
 
-        this.host.applyJsonFilter(basicFilters, "general", "filter", FilterAction.merge);
+            if (f.filterType === "advanced") {
+                // Numeric / date comparison filter
+                if (!f.conditions?.length) continue;
+                allFilters.push(new AdvancedFilter(
+                    { table: f.target.table, column: f.target.column },
+                    f.logicalOperator || "And",
+                    f.conditions  // [{ operator, value }]
+                ));
+            } else {
+                // Categorical "In" filter
+                if (!f.values?.length) continue;
+                allFilters.push(new BasicFilter(
+                    { table: f.target.table, column: f.target.column },
+                    "In",
+                    f.values
+                ));
+            }
+        }
+
+        if (allFilters.length === 0) return;
+
+        this.host.applyJsonFilter(allFilters, "general", "filter", FilterAction.merge);
     }
 }

@@ -160,6 +160,17 @@ async def parse_query(request: QueryRequest):
         logger.info(f"Processing query: {request.query}")
         table_name = current_schema.get("table_name", "data")
 
+        if not current_schema.get("columns"):
+            logger.warning("Schema has no columns - visual may not have registered schema yet")
+            return QueryResponse(
+                query=request.query,
+                intent="error",
+                entities={},
+                filters=[],
+                dax_query="",
+                status="Schema not ready - please wait for the visual to load and try again"
+            )
+
         intent_data = parse_intent(request.query, current_schema)
 
         if "error" in intent_data:
@@ -168,16 +179,22 @@ async def parse_query(request: QueryRequest):
 
         # If pre-LLM / rule engine returned filters directly, use them as-is
         # and fix the table name to match the actual registered schema
-        if intent_data.get("source") == "rule_engine" and intent_data.get("filters"):
+        if intent_data.get("source") == "rule_engine" and (intent_data.get("filters") or intent_data.get("advanced_filters")):
             pbi_filters = []
-            for f in intent_data["filters"]:
+            for f in intent_data.get("filters", []):
                 pbi_filters.append({
+                    "filterType": "basic",
+                    "$schema": "http://powerbi.com/product/schema#basic",
+                    "target": {"table": table_name, "column": f["target"]["column"]},
+                    "operator": "In",
+                    "values": f["conditions"][0]["values"]
+                })
+            for f in intent_data.get("advanced_filters", []):
+                pbi_filters.append({
+                    "filterType": "advanced",
                     "$schema": "http://powerbi.com/product/schema#advanced",
-                    "target": {
-                        "table": table_name,
-                        "column": f["target"]["column"]
-                    },
-                    "logicalOperator": "And",
+                    "target": {"table": table_name, "column": f["target_column"]},
+                    "logicalOperator": f.get("logicalOperator", "And"),
                     "conditions": f["conditions"]
                 })
             logger.info(f"Using rule_engine filters directly: {len(pbi_filters)} filters")
@@ -212,7 +229,8 @@ async def parse_query(request: QueryRequest):
         if not validator_result.get("valid", False):
             logger.warning(f"Validation warning: {validator_result.get('errors', [])}")
 
-        applier_result = filter_applier(dax_query, filters, table_name)
+        applier_result = filter_applier(dax_query, filters, table_name,
+                                         advanced_filters=intent_data.get("advanced_filters"))
         pbi_filters = applier_result.get("filters", [])
 
         logger.info(f"Query processed successfully with {len(pbi_filters)} filters")
