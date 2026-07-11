@@ -14,6 +14,7 @@ from modules.reasoning_engine import reasoning_engine
 from modules.dax_generator import dax_generator
 from modules.filter_validator import filter_validator
 from modules.filter_applier import filter_applier
+from modules.semantic_enrichment import enrich_schema
 
 app = FastAPI(
     title="Power BI Bot Backend",
@@ -23,14 +24,13 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Allow all origins for development
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
     expose_headers=["*"]
 )
 
-# Handle preflight requests
 @app.options("/{full_path:path}")
 async def preflight(full_path: str):
     return {"status": "ok"}
@@ -59,6 +59,7 @@ class SchemaRequest(BaseModel):
     date_columns: Optional[List[str]] = []
     categorical_columns: Optional[List[str]] = []
     numeric_columns: Optional[List[str]] = []
+    table_name: Optional[str] = None
 
 
 class MappingsRequest(BaseModel):
@@ -99,15 +100,36 @@ async def health_check():
 async def register_schema(schema: SchemaRequest):
     global current_schema
     try:
-        current_schema = {
+        incoming_col_count = len(schema.columns)
+        existing_col_count = len(current_schema.get("columns", {})) if current_schema else 0
+
+        # Only update if incoming schema has more or equal columns
+        if incoming_col_count < existing_col_count:
+            logger.info(f"Ignoring partial schema ({incoming_col_count} cols) - keeping existing ({existing_col_count} cols)")
+            return {"status": "skipped", "columns_registered": existing_col_count}
+
+        logger.info(f"Registering schema with {incoming_col_count} columns: {list(schema.columns.keys())}")
+
+        new_schema = {
             "tables": schema.tables,
             "columns": schema.columns,
             "date_columns": schema.date_columns or [],
             "categorical_columns": schema.categorical_columns or [],
-            "numeric_columns": schema.numeric_columns or []
+            "numeric_columns": schema.numeric_columns or [],
+            "table_name": schema.table_name or (schema.tables[0] if schema.tables else "data")
         }
-        logger.info(f"Schema registered with {len(schema.columns)} columns")
-        return {"status": "success", "columns_registered": len(schema.columns)}
+
+        # Merge distinct_values from existing schema if new schema is missing them
+        if current_schema:
+            for col_name, col_info in new_schema["columns"].items():
+                if not col_info.get("distinct_values") and col_name in current_schema.get("columns", {}):
+                    existing_vals = current_schema["columns"][col_name].get("distinct_values", [])
+                    if existing_vals:
+                        col_info["distinct_values"] = existing_vals
+
+        current_schema = enrich_schema(new_schema)
+        logger.info(f"Schema registered: {list(current_schema.get('columns', {}).keys())}, table: {current_schema.get('table_name')}")
+        return {"status": "success", "columns_registered": incoming_col_count}
     except Exception as e:
         logger.error(f"Error registering schema: {str(e)}")
         raise HTTPException(status_code=400, detail=str(e))
@@ -134,43 +156,67 @@ async def parse_query(request: QueryRequest):
     try:
         if not current_schema:
             raise HTTPException(status_code=400, detail="No schema registered")
-        
+
         logger.info(f"Processing query: {request.query}")
-        
+        table_name = current_schema.get("table_name", "data")
+
         intent_data = parse_intent(request.query, current_schema)
-        
+
         if "error" in intent_data:
             logger.error(f"Intent parsing error: {intent_data['error']}")
             raise HTTPException(status_code=400, detail=f"Failed to parse query: {intent_data['error']}")
-        
+
+        # If pre-LLM / rule engine returned filters directly, use them as-is
+        # and fix the table name to match the actual registered schema
+        if intent_data.get("source") == "rule_engine" and intent_data.get("filters"):
+            pbi_filters = []
+            for f in intent_data["filters"]:
+                pbi_filters.append({
+                    "$schema": "http://powerbi.com/product/schema#advanced",
+                    "target": {
+                        "table": table_name,
+                        "column": f["target"]["column"]
+                    },
+                    "logicalOperator": "And",
+                    "conditions": f["conditions"]
+                })
+            logger.info(f"Using rule_engine filters directly: {len(pbi_filters)} filters")
+            return QueryResponse(
+                query=request.query,
+                intent=intent_data.get("intent", "filter_data"),
+                entities=intent_data.get("entities", {}),
+                filters=pbi_filters,
+                dax_query="",
+                status="success"
+            )
+
+        # LLM path - run full pipeline
         entities = intent_data.get("entities", {})
         confidence = intent_data.get("confidence", 0)
-        
+
         if confidence < 0.3:
             logger.warning(f"Low confidence parse: {confidence}")
-        
+
         semantic_result = semantic_resolver(entities, current_schema, current_mappings)
         resolved_entities = semantic_result.get("resolved_entities", {})
-        
+        logger.info(f"Resolved entities: {resolved_entities}")
+
         reasoning_result = reasoning_engine(resolved_entities, current_mappings)
         filters = reasoning_result.get("filters", {})
-        
+        logger.info(f"Reasoning filters: {filters}")
+
         dax_result = dax_generator(filters)
         dax_query = dax_result.get("dax_where_clause", "")
-        
+
         validator_result = filter_validator(dax_query, filters, current_schema)
-        
         if not validator_result.get("valid", False):
-            raise HTTPException(
-                status_code=400,
-                detail=f"Filter validation failed: {validator_result.get('errors', [])}"
-            )
-        
-        applier_result = filter_applier(dax_query, filters)
+            logger.warning(f"Validation warning: {validator_result.get('errors', [])}")
+
+        applier_result = filter_applier(dax_query, filters, table_name)
         pbi_filters = applier_result.get("filters", [])
-        
+
         logger.info(f"Query processed successfully with {len(pbi_filters)} filters")
-        
+
         return QueryResponse(
             query=request.query,
             intent=intent_data.get("intent", "filter_data"),
@@ -179,7 +225,7 @@ async def parse_query(request: QueryRequest):
             dax_query=dax_query,
             status="success"
         )
-    
+
     except HTTPException:
         raise
     except Exception as e:
@@ -192,7 +238,6 @@ async def extract_intent(request: QueryRequest):
     try:
         if not current_schema:
             raise HTTPException(status_code=400, detail="No schema registered")
-        
         intent_data = parse_intent(request.query, current_schema)
         return intent_data
     except HTTPException:

@@ -4,9 +4,13 @@ from dateutil.relativedelta import relativedelta
 from typing import Dict, Any
 
 column_mappings = None
-TODAY = datetime.strptime("2026-06-13", "%Y-%m-%d")
-CURRENT_YEAR = 2026
-CURRENT_QUARTER = "Q2"
+def _get_current_quarter():
+    month = datetime.now().month
+    return f"Q{(month - 1) // 3 + 1}"
+
+TODAY = datetime.now()
+CURRENT_YEAR = TODAY.year
+CURRENT_QUARTER = _get_current_quarter()
 
 
 def set_mappings(mappings: dict):

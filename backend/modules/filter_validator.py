@@ -18,7 +18,8 @@ def validate_filter(filter_name: str, filter_value: Any) -> bool:
     if not column_info:
         return True
     
-    valid_values = column_info.get("valid_values", [])
+    # Support both valid_values and distinct_values
+    valid_values = column_info.get("valid_values") or column_info.get("distinct_values", [])
     
     if not valid_values:
         return True

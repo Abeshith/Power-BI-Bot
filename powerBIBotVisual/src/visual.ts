@@ -4,7 +4,7 @@
 "use strict";
 
 import powerbi from "powerbi-visuals-api";
-import { BasicFilter } from "powerbi-models";
+import { BasicFilter, AdvancedFilter } from "powerbi-models";
 import "./../style/visual.less";
 
 import VisualConstructorOptions = powerbi.extensibility.visual.VisualConstructorOptions;
@@ -29,6 +29,98 @@ export class Visual implements IVisual {
         if (!this.rendered) {
             this.renderChatbot();
         }
+        if (options.dataViews && options.dataViews.length > 0) {
+            this.extractAndRegisterSchema(options.dataViews[0]);
+        }
+    }
+
+    private extractAndRegisterSchema(dataView: any): void {
+        try {
+           console.log("DataView structure:", dataView);
+           if (!dataView.table || !dataView.table.columns) {
+               console.log("No table or columns in dataView, returning");
+               return;
+           }
+           const columns: any = {};
+           const categoricalCols: string[] = [];
+           const numericCols: string[] = [];
+           const dateCols: string[] = [];
+            
+           let tableName = "data";
+           if (dataView.table.columns && dataView.table.columns.length > 0) {
+               const firstCol = dataView.table.columns[0];
+               if (firstCol.queryName) {
+                   tableName = firstCol.queryName.split('.')[0];
+               }
+           }
+            
+           console.log(`Processing ${dataView.table.columns.length} columns`);
+
+           for (const col of dataView.table.columns) {
+               const colName = col.displayName || col.queryName;
+               const colType = col.type?.primitiveType || "text";
+               console.log(`Column: ${colName}, Type: ${colType}`);
+               let colData: any = { type: colType, displayName: colName };
+
+               if (dataView.table.rows) {
+                   const colIndex = dataView.table.columns.indexOf(col);
+                   const vals = dataView.table.rows.map((row: any) => row[colIndex]).filter((v: any) => v !== null && v !== undefined);
+                   const isText = col.type?.text === true || col.type?.category != null;
+                   const isNumeric = col.type?.numeric === true || col.type?.integer === true;
+                   const isDate = col.type?.dateTime === true || col.type?.date === true;
+
+                   if (isText) {
+                       colData.distinct_values = [...new Set(vals as string[])];
+                       categoricalCols.push(colName);
+                   } else if (isNumeric) {
+                       const numVals = vals.map((v: any) => Number(v)).filter((v: number) => !isNaN(v));
+                       if (numVals.length > 0) {
+                           colData.min = Math.min(...numVals);
+                           colData.max = Math.max(...numVals);
+                           colData.average = numVals.reduce((a: number, b: number) => a + b, 0) / numVals.length;
+                       }
+                       numericCols.push(colName);
+                   } else if (isDate) {
+                       const dateVals = vals.map((v: any) => new Date(v)).filter((v: Date) => !isNaN(v.getTime()));
+                       if (dateVals.length > 0) {
+                           colData.min_date = new Date(Math.min(...dateVals.map((d: Date) => d.getTime()))).toISOString();
+                           colData.max_date = new Date(Math.max(...dateVals.map((d: Date) => d.getTime()))).toISOString();
+                       }
+                       dateCols.push(colName);
+                   } else {
+                       // Fallback: if values look like strings, treat as categorical
+                       const strVals = vals.filter((v: any) => typeof v === "string");
+                       if (strVals.length > 0) {
+                           colData.distinct_values = [...new Set(strVals as string[])];
+                           categoricalCols.push(colName);
+                       }
+                   }
+               }
+
+               columns[colName] = colData;
+           }
+
+           const schema = {
+               tables: [tableName],
+               columns: columns,
+               categorical_columns: categoricalCols,
+               numeric_columns: numericCols,
+               date_columns: dateCols,
+               table_name: tableName
+           };
+           console.log("Final schema to send:", JSON.stringify(schema, null, 2));
+           this.sendSchemaToBackend(schema);
+       } catch (err) {
+           console.log("Schema extraction error", err);
+       }
+    }
+
+    private sendSchemaToBackend(schema: any): void {
+        fetch(`${this.backendUrl}/api/schema/register`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(schema)
+        });
     }
 
     public getFormattingModel(): powerbi.visuals.FormattingModel {
@@ -45,14 +137,14 @@ export class Visual implements IVisual {
         this.target.style.padding = "10px";
         this.target.style.fontFamily = "Arial, sans-serif";
         this.target.style.backgroundColor = "#f5f5f5";
+        this.target.style.overflow = "hidden";
 
-        // Header
         const header = document.createElement("div");
         header.style.fontSize = "18px";
         header.style.fontWeight = "bold";
         header.style.marginBottom = "10px";
         header.style.color = "#333";
-        header.textContent = "🤖 Power BI Query Assistant";
+        header.textContent = "Power BI Query Assistant";
 
         // Input area
         const inputContainer = document.createElement("div");
@@ -99,15 +191,11 @@ export class Visual implements IVisual {
          
         const welcomeText = document.createElement("div");
         const welcomeTitle = document.createElement("strong");
-        welcomeTitle.textContent = "Welcome! 👋";
+        welcomeTitle.textContent = "Welcome!";
         welcomeText.appendChild(welcomeTitle);
-         
-        const br1 = document.createElement("br");
-        welcomeText.appendChild(br1);
-         
+        welcomeText.appendChild(document.createElement("br"));
         const text1 = document.createTextNode("Type your question to filter your dashboard:");
         welcomeText.appendChild(text1);
-         
         welcome.appendChild(welcomeText);
         messagesArea.appendChild(welcome);
 
@@ -155,15 +243,22 @@ export class Visual implements IVisual {
                botMsg.style.backgroundColor = "#f0f0f0";
                botMsg.style.borderRadius = "4px";
                 
-               if (data.filters && data.filters.length > 0) {
+           if (data.filters && data.filters.length > 0) {
                    const filterSummary = data.filters.map((f: any) => {
                        const col = f.target?.column || 'filter';
                        const values = f.conditions?.[0]?.values || [];
-                       return `${col} = ${values.join(', ')}`;
+                       if (Array.isArray(values)) {
+                           return `${col} = ${values.join(', ')}`;
+                       } else if (typeof values === 'object') {
+                           return `${col} = ${JSON.stringify(values)}`;
+                       } else {
+                           return `${col} = ${values}`;
+                       }
                    }).join(', ');
-                   botMsg.textContent = `Bot: Applied ${data.filters.length} filter(s): ${filterSummary}\n\n⚠️ NOTE: Filters are being sent. If charts don't update, the dashboard may need a different configuration.`;
+                   botMsg.textContent = `Bot: Applied ${data.filters.length} filter(s): ${filterSummary}`;
                     
-                   // Try to apply filters
+                   console.log("Filters from backend:", JSON.stringify(data.filters, null, 2));
+                    
                    this.applyFiltersToVisuals(data.filters);
                } else {
                    botMsg.textContent = "Bot: Query processed (no filters applied)";
@@ -190,47 +285,35 @@ export class Visual implements IVisual {
     }
 
     private applyFiltersToVisuals(filters: any[]): void {
-       console.log("🔍 Attempting to apply filters...");
-       console.log("Filters:", JSON.stringify(filters, null, 2));
-         
-       if (!this.host) {
-           console.error("❌ Host is null - cannot apply filters");
-           return;
-       }
+       if (!this.host || !filters || filters.length === 0) return;
+
+       console.log(`Applying ${filters.length} filters`, filters);
 
        for (let i = 0; i < filters.length; i++) {
            const filter = filters[i];
-           const tableName = filter.target?.table || "hospital_data";
+           const tableName = filter.target?.table;
            const columnName = filter.target?.column;
            const values = filter.conditions?.[0]?.values || [];
 
-           console.log(`\nFilter ${i}:`);
-           console.log(`  Table: ${tableName}`);
-           console.log(`  Column: ${columnName}`);
-           console.log(`  Values: ${JSON.stringify(values)}`);
-
-           if (!columnName || values.length === 0) continue;
-
-           try {
-               // Power BI requires column reference in format: Table[Column]
-               const columnRef = `${tableName}[${columnName}]`;
-                
-               const basicFilter = new BasicFilter(
-                   {
-                       table: tableName,
-                       column: columnName
-                   },
-                   "In",
-                   values
-               );
-
-               console.log(`  Column reference: ${columnRef}`);
-               console.log(`  Calling applyJsonFilter...`);
-               this.host.applyJsonFilter(basicFilter, "general", "filter", FilterAction.merge);
-               console.log(`  ✅ Filter call succeeded`);
-           } catch (err: any) {
-               console.error(`  ❌ Filter failed:`, String(err));
+           if (!tableName || !columnName || values.length === 0) {
+               console.warn(`Skipping filter ${i}: missing table, column or values`);
+               continue;
            }
+
+           const basicFilter = new BasicFilter(
+               { table: tableName, column: columnName },
+               "In",
+               values
+           );
+
+           const delayMs = i * 50;
+           setTimeout(() => {
+               try {
+                   this.host.applyJsonFilter(basicFilter, "general", "filter", FilterAction.merge);
+               } catch (e) {
+                   console.error(`Failed to apply filter ${columnName}:`, e);
+               }
+           }, delayMs);
        }
     }
 }
