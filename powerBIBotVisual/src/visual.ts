@@ -47,19 +47,29 @@ export class Visual implements IVisual {
            const dateCols: string[] = [];
             
            let tableName = "data";
-           if (dataView.table.columns && dataView.table.columns.length > 0) {
-               const firstCol = dataView.table.columns[0];
-               if (firstCol.queryName) {
-                   tableName = firstCol.queryName.split('.')[0];
+           // Find table name from a non-hierarchy column (hierarchy queryNames look like
+           // "admission_date.Variation.Date Hierarchy.Year" which would give wrong table)
+           // A real column queryName is "hospital_data.column_name" (exactly 2 parts)
+           for (const col of dataView.table.columns) {
+               if (col.queryName) {
+                   const parts = col.queryName.split('.');
+                   if (parts.length === 2) {
+                       tableName = parts[0];
+                       break;
+                   }
                }
            }
             
            console.log(`Processing ${dataView.table.columns.length} columns`);
 
            for (const col of dataView.table.columns) {
-               const colName = col.displayName || col.queryName;
+               // For hierarchy columns (queryName has >2 parts like "admission_date.Variation.Date Hierarchy.Year"),
+               // use the base column name (part[1]) not the displayName ("Year")
+               const qParts = col.queryName ? col.queryName.split('.') : [];
+               const isHierarchy = qParts.length > 2;
+               const colName = isHierarchy ? qParts[1] : (col.displayName || col.queryName);
                const colType = col.type?.primitiveType || "text";
-               console.log(`Column: ${colName}, Type: ${colType}`);
+               console.log(`Column: ${colName}, Type: ${colType}, Hierarchy: ${isHierarchy}`);
                let colData: any = { type: colType, displayName: colName };
 
                if (dataView.table.rows) {
@@ -250,15 +260,14 @@ export class Visual implements IVisual {
                if (data.filters && data.filters.length > 0) {
                    const filterSummary = data.filters.map((f: any) => {
                        const col = f.target?.column || 'filter';
+                       const tbl = f.target?.table || 'NO_TABLE';
                        if (f.filterType === "advanced") {
                            const parts = f.conditions.map((c: any) => `${c.operator} ${c.value}`).join(" AND ");
-                           return `${col} ${parts}`;
+                           return `${tbl}.${col} ${parts}`;
                        }
-                       return `${col} = ${(f.values || []).join(', ')}`;
-                   }).join(', ');
-                   botMsg.textContent = `Bot: Applied ${data.filters.length} filter(s): ${filterSummary}`;
-                    
-                   console.log("Filters from backend:", JSON.stringify(data.filters, null, 2));
+                       return `${tbl}.${col} IN [${(f.values || []).join(', ')}]`;
+                   }).join(' | ');
+                   botMsg.textContent = `Bot: ${data.filters.length} filter(s): ${filterSummary}`;
                    this.applyFiltersToVisuals(data.filters);
                } else {
                    botMsg.textContent = "Bot: Query processed (no filters applied)";
@@ -292,29 +301,49 @@ export class Visual implements IVisual {
         const allFilters: (BasicFilter | AdvancedFilter)[] = [];
 
         for (const f of filters) {
-            if (!f.target?.table || !f.target?.column) continue;
+            if (!f.target?.table || !f.target?.column) {
+                console.warn("Skipping filter - missing table or column:", JSON.stringify(f));
+                continue;
+            }
 
-            if (f.filterType === "advanced") {
-                // Numeric / date comparison filter
-                if (!f.conditions?.length) continue;
-                allFilters.push(new AdvancedFilter(
-                    { table: f.target.table, column: f.target.column },
-                    f.logicalOperator || "And",
-                    f.conditions  // [{ operator, value }]
-                ));
-            } else {
-                // Categorical "In" filter
-                if (!f.values?.length) continue;
-                allFilters.push(new BasicFilter(
-                    { table: f.target.table, column: f.target.column },
-                    "In",
-                    f.values
-                ));
+            try {
+                if (f.filterType === "advanced") {
+                    if (!f.conditions?.length) continue;
+                    // Convert ISO date strings to Date objects — Power BI AdvancedFilter
+                    // requires Date values for datetime columns, not plain strings
+                    const conditions = f.conditions.map((c: any) => {
+                        const isIsoDate = typeof c.value === "string" && /^\d{4}-\d{2}-\d{2}/.test(c.value);
+                        return { operator: c.operator, value: isIsoDate ? new Date(c.value) : c.value };
+                    });
+                    const af = new AdvancedFilter(
+                        { table: f.target.table, column: f.target.column },
+                        f.logicalOperator || "And",
+                        conditions
+                    );
+                    console.log("Built AdvancedFilter:", JSON.stringify(af));
+                    allFilters.push(af);
+                } else {
+                    if (!f.values?.length) continue;
+                    const bf = new BasicFilter(
+                        { table: f.target.table, column: f.target.column },
+                        "In",
+                        f.values
+                    );
+                    console.log("Built BasicFilter:", JSON.stringify(bf));
+                    allFilters.push(bf);
+                }
+            } catch (err) {
+                console.error("Error building filter:", err, JSON.stringify(f));
             }
         }
 
         if (allFilters.length === 0) return;
 
-        this.host.applyJsonFilter(allFilters, "general", "filter", FilterAction.merge);
+        try {
+            this.host.applyJsonFilter(allFilters, "general", "filter", FilterAction.merge);
+            console.log("applyJsonFilter called successfully with", allFilters.length, "filters");
+        } catch (err) {
+            console.error("applyJsonFilter failed:", err);
+        }
     }
 }

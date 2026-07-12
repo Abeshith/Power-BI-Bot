@@ -133,117 +133,79 @@ def extract_numeric_date_filters(query: str, dashboard_schema: dict) -> tuple:
         re.IGNORECASE
     )
 
-    # Detect split date columns dynamically from schema (e.g. Year, Month, Day as separate columns)
-    schema_cols = {c.lower(): c for c in dashboard_schema.get("columns", {}).keys()}
-    split_year_col  = next((schema_cols[c] for c in schema_cols if c in ("year",  "yr")),  None)
-    split_month_col = next((schema_cols[c] for c in schema_cols if c in ("month", "mon")), None)
-    split_day_col   = next((schema_cols[c] for c in schema_cols if c in ("day",   "date")), None)
-    has_split_date  = split_year_col or split_month_col or split_day_col
+    # Find the actual date column - scan ALL column names for *date* pattern, prefer date_cols list
+    schema_cols_lower = {c.lower(): c for c in dashboard_schema.get("columns", {}).keys()}
+    date_col = next(iter(date_cols)) if date_cols else None
+    if not date_col:
+        # Prefer columns whose name contains 'date' (admission_date, discharge_date, etc.)
+        for col_lower, col_orig in schema_cols_lower.items():
+            if "date" in col_lower:
+                date_col = col_orig
+                break
+    if not date_col:
+        for candidate in ("admission_date", "date", "admission date"):
+            if candidate in schema_cols_lower:
+                date_col = schema_cols_lower[candidate]
+                break
 
-    def _add_split_date_filters(month_name, day_str, year_str, extra_tokens=None):
-        """Build BasicFilter-style entries for split Year/Month/Day columns."""
-        split = {}
-        month_num = _MONTH_MAP.get(month_name.lower())
-        col_info = dashboard_schema.get("columns", {})
-
-        if split_year_col and year_str:
-            year_int = int(year_str)
-            year_vals = col_info.get(split_year_col, {}).get("distinct_values", [])
-            if not year_vals or year_int in year_vals:
-                split[split_year_col] = [year_int]
-
-        if split_month_col and month_name:
-            month_vals = col_info.get(split_month_col, {}).get("distinct_values", [])
-            # find exact case match from schema distinct_values
-            match = next((v for v in month_vals if str(v).lower() == month_name.lower()), None)
-            if match is not None:
-                split[split_month_col] = [match]
-            elif month_num:
-                match_num = next((v for v in month_vals if str(v) == str(int(month_num))), None)
-                if match_num is not None:
-                    split[split_month_col] = [match_num]
-
-        if split_day_col and day_str:
-            day_int = int(day_str)
-            day_vals = col_info.get(split_day_col, {}).get("distinct_values", [])
-            if not day_vals or day_int in day_vals:
-                split[split_day_col] = [day_int]
-
-        tokens = {month_name.lower(), day_str.lower(), year_str.lower()}
-        if extra_tokens:
-            tokens.update(extra_tokens)
-        return split, tokens
-
-    if date_cols or has_split_date:
-        date_col = next(iter(date_cols)) if date_cols else None
-
+    if date_col:
         nl_between_spans = {m.span() for m in nl_between_re.finditer(query)}
 
         for m in nl_between_re.finditer(query):
-            if date_col:
-                d1 = _parse_natural_date(m.group("d1"), m.group("m1"), m.group("y1"))
-                d2 = _parse_natural_date(m.group("d2"), m.group("m2"), m.group("y2"))
-                if d1 and d2:
-                    results.append({
-                        "filterType": "advanced", "target_column": date_col,
-                        "conditions": [
-                            {"operator": "GreaterThanOrEqual", "value": d1},
-                            {"operator": "LessThanOrEqual",    "value": d2},
-                        ],
-                        "logicalOperator": "And"
-                    })
+            d1 = _parse_natural_date(m.group("d1"), m.group("m1"), m.group("y1"))
+            d2 = _parse_natural_date(m.group("d2"), m.group("m2"), m.group("y2"))
+            if d1 and d2:
+                results.append({
+                    "filterType": "advanced", "target_column": date_col,
+                    "conditions": [
+                        {"operator": "GreaterThanOrEqual", "value": d1},
+                        {"operator": "LessThanOrEqual",    "value": d2},
+                    ],
+                    "logicalOperator": "And"
+                })
             for grp in ("m1", "d1", "y1", "m2", "d2", "y2"):
                 exclude_tokens.add(m.group(grp).lower())
+            # Exclude resolved month numbers
+            for mgrp in ("m1", "m2"):
+                mn = _MONTH_MAP.get(m.group(mgrp).lower())
+                if mn:
+                    exclude_tokens.add(mn)
+                    exclude_tokens.add(str(int(mn)))
 
+        nl_date_spans = {m.span() for m in nl_date_re.finditer(query)}
         for m in nl_date_re.finditer(query):
             if any(m.start() >= s and m.end() <= e for s, e in nl_between_spans):
                 continue
             op_word = m.group("op").lower()
-            if date_col:
-                date_str = _parse_natural_date(m.group("day"), m.group("month"), m.group("year"))
-                if date_str:
-                    operator = "GreaterThan" if op_word in ("after", "since") else \
-                               "LessThan"    if op_word in ("before", "until", "by") else "Is"
-                    results.append({
-                        "filterType": "advanced", "target_column": date_col,
-                        "conditions": [{"operator": operator, "value": date_str}],
-                        "logicalOperator": "And"
-                    })
-            if has_split_date:
-                split, tokens = _add_split_date_filters(
-                    m.group("month"), m.group("day"), m.group("year"), {op_word}
-                )
-                results.extend({
-                    "filterType": "basic", "target_column": col, "values": vals
-                } for col, vals in split.items())
-                exclude_tokens.update(tokens)
-            else:
-                for grp in ("op", "month", "day", "year"):
-                    exclude_tokens.add(m.group(grp).lower())
+            date_str = _parse_natural_date(m.group("day"), m.group("month"), m.group("year"))
+            if date_str:
+                operator = "GreaterThan" if op_word in ("after", "since") else \
+                           "LessThan"    if op_word in ("before", "until", "by") else "Is"
+                results.append({
+                    "filterType": "advanced", "target_column": date_col,
+                    "conditions": [{"operator": operator, "value": date_str}],
+                    "logicalOperator": "And"
+                })
+            for grp in ("op", "month", "day", "year"):
+                exclude_tokens.add(m.group(grp).lower())
+            # Also exclude the resolved month number so numeric Month column doesn't get picked up
+            month_num = _MONTH_MAP.get(m.group("month").lower())
+            if month_num:
+                exclude_tokens.add(month_num)          # "05"
+                exclude_tokens.add(str(int(month_num))) # "5"
 
-        nl_date_spans = {m.span() for m in nl_date_re.finditer(query)}
         for m in nl_bare_re.finditer(query):
             if any(m.start() >= s and m.end() <= e for s, e in nl_date_spans | nl_between_spans):
                 continue
-            if date_col:
-                date_str = _parse_natural_date(m.group("day"), m.group("month"), m.group("year"))
-                if date_str:
-                    results.append({
-                        "filterType": "advanced", "target_column": date_col,
-                        "conditions": [{"operator": "Is", "value": date_str}],
-                        "logicalOperator": "And"
-                    })
-            if has_split_date:
-                split, tokens = _add_split_date_filters(
-                    m.group("month"), m.group("day"), m.group("year")
-                )
-                results.extend({
-                    "filterType": "basic", "target_column": col, "values": vals
-                } for col, vals in split.items())
-                exclude_tokens.update(tokens)
-            else:
-                for grp in ("month", "day", "year"):
-                    exclude_tokens.add(m.group(grp).lower())
+            date_str = _parse_natural_date(m.group("day"), m.group("month"), m.group("year"))
+            if date_str:
+                results.append({
+                    "filterType": "advanced", "target_column": date_col,
+                    "conditions": [{"operator": "Is", "value": date_str}],
+                    "logicalOperator": "And"
+                })
+            for grp in ("month", "day", "year"):
+                exclude_tokens.add(m.group(grp).lower())
 
     if not all_cols:
         return results, exclude_tokens

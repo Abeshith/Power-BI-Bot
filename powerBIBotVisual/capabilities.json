@@ -16,7 +16,12 @@
                                 "to": "fields"
                             }
                         }
-                    ]
+                    ],
+                    "dataReductionAlgorithm": {
+                        "top": {
+                            "count": 10000
+                        }
+                    }
                 }
             }
         }
@@ -37,7 +42,3 @@
     "supportsHighlight": false,
     "privileges": []
 }
-
-
-
-
