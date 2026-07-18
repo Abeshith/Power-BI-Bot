@@ -145,3 +145,5 @@ session-state/
 # IDE temp files
 .editorconfig.swp
 .prettierrc.swp
+
+logs.txt

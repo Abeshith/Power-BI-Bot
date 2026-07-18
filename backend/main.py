@@ -16,6 +16,15 @@ from modules.filter_validator import filter_validator
 from modules.filter_applier import filter_applier
 from modules.semantic_enrichment import enrich_schema
 
+_MONTH_NAME_TO_INT = {
+    "january": 1, "february": 2, "march": 3, "april": 4,
+    "may": 5, "june": 6, "july": 7, "august": 8,
+    "september": 9, "october": 10, "november": 11, "december": 12,
+    "jan": 1, "feb": 2, "mar": 3, "apr": 4,
+    "jun": 6, "jul": 7, "aug": 8, "sep": 9,
+    "oct": 10, "nov": 11, "dec": 12
+}
+
 app = FastAPI(
     title="Power BI Bot Backend",
     description="AI-powered query parser for any Power BI dashboard",
@@ -120,8 +129,12 @@ async def register_schema(schema: SchemaRequest):
         }
 
         # Merge distinct_values from existing schema if new schema is missing them
+        # Never merge onto date columns — stale integer distinct_values cause type crashes
+        new_date_cols = set(new_schema.get("date_columns", []))
         if current_schema:
             for col_name, col_info in new_schema["columns"].items():
+                if col_name in new_date_cols:
+                    continue
                 if not col_info.get("distinct_values") and col_name in current_schema.get("columns", {}):
                     existing_vals = current_schema["columns"][col_name].get("distinct_values", [])
                     if existing_vals:
@@ -160,6 +173,17 @@ async def parse_query(request: QueryRequest):
         logger.info(f"Processing query: {request.query}")
         table_name = current_schema.get("table_name", "data")
 
+        if not current_schema.get("columns"):
+            logger.warning("Schema has no columns - visual may not have registered schema yet")
+            return QueryResponse(
+                query=request.query,
+                intent="error",
+                entities={},
+                filters=[],
+                dax_query="",
+                status="Schema not ready - please wait for the visual to load and try again"
+            )
+
         intent_data = parse_intent(request.query, current_schema)
 
         if "error" in intent_data:
@@ -168,18 +192,74 @@ async def parse_query(request: QueryRequest):
 
         # If pre-LLM / rule engine returned filters directly, use them as-is
         # and fix the table name to match the actual registered schema
-        if intent_data.get("source") == "rule_engine" and intent_data.get("filters"):
+        if intent_data.get("source") == "rule_engine" and (intent_data.get("filters") or intent_data.get("advanced_filters")):
             pbi_filters = []
-            for f in intent_data["filters"]:
+            for f in intent_data.get("filters", []):
+                col = f["target"]["column"]
+                values = f["conditions"][0]["values"]
+                # Convert string month names to integers if this is the Month column
+                if col.lower() == "month":
+                    converted = []
+                    for v in values:
+                        if isinstance(v, str) and v.lower() in _MONTH_NAME_TO_INT:
+                            converted.append(_MONTH_NAME_TO_INT[v.lower()])
+                        else:
+                            converted.append(v)
+                    values = converted
                 pbi_filters.append({
-                    "$schema": "http://powerbi.com/product/schema#advanced",
-                    "target": {
-                        "table": table_name,
-                        "column": f["target"]["column"]
-                    },
-                    "logicalOperator": "And",
-                    "conditions": f["conditions"]
+                    "filterType": "basic",
+                    "$schema": "http://powerbi.com/product/schema#basic",
+                    "target": {"table": table_name, "column": col},
+                    "operator": "In",
+                    "values": values
                 })
+            for f in intent_data.get("advanced_filters", []):
+                col = f["target_column"]
+                conditions = f["conditions"]
+                col_info = current_schema.get("columns", {}).get(col, {})
+                distinct = col_info.get("distinct_values", [])
+                v1 = conditions[0]["value"]
+                # Only convert to BasicFilter when: column has numeric distinct_values
+                # AND the filter value itself is numeric (not an ISO date string)
+                is_numeric_distinct = (
+                    distinct
+                    and isinstance(v1, (int, float))
+                    and all(isinstance(v, (int, float)) for v in distinct)
+                )
+                if is_numeric_distinct and len(conditions) <= 2:
+                    lo = hi = None
+                    op1 = conditions[0]["operator"]
+                    v1 = conditions[0]["value"]
+                    if len(conditions) == 2:
+                        v2 = conditions[1]["value"]
+                        lo, hi = min(v1, v2), max(v1, v2)
+                        matching = [v for v in distinct if lo <= v <= hi]
+                    elif op1 in ("GreaterThan",):
+                        matching = [v for v in distinct if v > v1]
+                    elif op1 in ("GreaterThanOrEqual",):
+                        matching = [v for v in distinct if v >= v1]
+                    elif op1 in ("LessThan",):
+                        matching = [v for v in distinct if v < v1]
+                    elif op1 in ("LessThanOrEqual",):
+                        matching = [v for v in distinct if v <= v1]
+                    else:
+                        matching = [v for v in distinct if v == v1]
+                    if matching:
+                        pbi_filters.append({
+                            "filterType": "basic",
+                            "$schema": "http://powerbi.com/product/schema#basic",
+                            "target": {"table": table_name, "column": col},
+                            "operator": "In",
+                            "values": matching
+                        })
+                else:
+                    pbi_filters.append({
+                        "filterType": "advanced",
+                        "$schema": "http://powerbi.com/product/schema#advanced",
+                        "target": {"table": table_name, "column": col},
+                        "logicalOperator": f.get("logicalOperator", "And"),
+                        "conditions": conditions
+                    })
             logger.info(f"Using rule_engine filters directly: {len(pbi_filters)} filters")
             return QueryResponse(
                 query=request.query,
@@ -212,7 +292,8 @@ async def parse_query(request: QueryRequest):
         if not validator_result.get("valid", False):
             logger.warning(f"Validation warning: {validator_result.get('errors', [])}")
 
-        applier_result = filter_applier(dax_query, filters, table_name)
+        applier_result = filter_applier(dax_query, filters, table_name,
+                                         advanced_filters=intent_data.get("advanced_filters"))
         pbi_filters = applier_result.get("filters", [])
 
         logger.info(f"Query processed successfully with {len(pbi_filters)} filters")
